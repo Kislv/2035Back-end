@@ -9,6 +9,7 @@ CREATE TABLE users (
     password                            VARCHAR(20) NOT NULL,
     email                               VARCHAR(50) NOT NULL,
     phonenumber                         VARCHAR(20) NOT NULL,
+-- // TODO write valid path
     imgsrc                              VARCHAR(50) DEFAULT '/static/avatars/profile.svg'
 );
 
@@ -19,7 +20,7 @@ CREATE TABLE events (
     rating                              DOUBLE PRECISION NOT NULL,
     votesnum                            BIGINT NOT NULL,
     description                         VARCHAR(3000) NOT NULL,
-    organization                        VARCHAR(200) NOT NULL,
+    userId                              BIGINT REFERENCES users (id) ON DELETE CASCADE,
     longitude                           DOUBLE PRECISION NOT NULL,
     latitude                            DOUBLE PRECISION NOT NULL,
     currentmembersquantity              INTEGER NOT NULL,
@@ -38,7 +39,7 @@ CREATE TABLE categories (
 );
 
 CREATE TABLE events_categories (
-    event_id                            BIGINT REFERENCES events (id),
+    eventId                            BIGINT REFERENCES events (id),
     category                            VARCHAR(100) REFERENCES categories (name),
-    CONSTRAINT events_categories_id     PRIMARY KEY (event_id, category)
+    CONSTRAINT events_categories_id     PRIMARY KEY (eventId, category)
 );

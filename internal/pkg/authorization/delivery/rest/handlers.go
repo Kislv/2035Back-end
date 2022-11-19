@@ -1,7 +1,7 @@
 package autdelivery
 
 import (
-	"codex/internal/pkg/authorization/delivery/grpc"
+	"eventool/internal/pkg/authorization/delivery/grpc"
 
 	"github.com/gorilla/mux"
 )

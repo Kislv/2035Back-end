@@ -1,5 +1,6 @@
 package domain
 
+// TODO write valid path
 const BaseUserPicture = "/home/ubuntu/lolkek/static/avatars/profile.svg"
 
 type User struct {
