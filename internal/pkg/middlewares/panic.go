@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"eventool/internal/pkg/utils/log"
-
 	"fmt"
 	"net/http"
 )

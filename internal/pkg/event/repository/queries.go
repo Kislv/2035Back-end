@@ -1,54 +1,48 @@
-package plarepository
+package eventrepository
 
 const (
-	queryCreatePlaylist = `
-	INSERT INTO
-		playlists (title, public)
-	VALUES
-		($1, $2)
-	RETURNING id, title, poster, public;
-	`
-
-	queryCreatePlaylistUser = `
-	INSERT INTO
-		users_playlists (user_id, playlist_id)
-	VALUES
-		($1, $2);
-	`
-
-	queryPlaylistExist = `
+	queryCheckEvent = `
 	SELECT count(*)
-	FROM users_playlists 
-	JOIN playlists ON playlists.id = users_playlists.playlist_id
-	WHERE users_playlists.user_id = $1 and playlists.title = $2;
+	FROM events 
+	WHERE title = $1 and longitude = $2 and latitude = $3;
 	`
-
-	queryAddMovie = `
+	queryCreateEvent = `
 	INSERT INTO
-		playlists_movies (playlist_id, movie_id)
+    events (poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price)
 	VALUES
-		($1,$2);
+    (
+		$1,
+        $2,
+        $3, 
+        $4,
+		$5,
+        $6,
+        $7,
+        $8,
+        $9,
+        $10,
+        $11,
+        $12,
+        $13,
+        $14,
+		$15,
+		$16,
+		$17
+    )
+	RETURNING id, poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price;
 	`
 
-	queryDeleteMovie = `
-	DELETE FROM playlists_movies
-	WHERE playlist_id = $1 and movie_id = $2;
+	queryGetEventList = `
+	SELECT id, poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price
+	FROM events
+	JOIN events_categories ON events.id = events_categories.eventId
+	WHERE events_categories.category = $1
+	ORDER BY events.id;
 	`
 
-	queryDeletePlaylist = `
-	DELETE FROM playlists
-	WHERE id = $1;
-	`
-
-	queryAlterPlaylistPublic = `
-	UPDATE playlists 
-	SET public = $2
-	WHERE id = $1;
-	`
-
-	queryAlterPlaylistTitle = `
-	UPDATE playlists 
-	SET title = $2
-	WHERE id = $1;
+	queryGetAllEventList = `
+	SELECT id, poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price
+	FROM events
+	ORDER BY events.id;
 	`
 )

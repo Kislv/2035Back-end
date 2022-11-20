@@ -1,7 +1,10 @@
 package domain
 
 // TODO write valid path
-const BaseEventPicture = "/home/ubuntu/lolkek/static/event/event.png"
+const (
+	BaseEventPicture = "/home/ubuntu/lolkek/static/event/event.png"
+	maxEventTitleLength = 200
+)
 
 type EventCreatingRequest struct {
 	// TODO: define, what is required fields
@@ -25,9 +28,17 @@ type EventCreatingRequest struct {
 	Categories             []string `json:"categories"`
 }
 
-type EventResponse struct {
+func (er EventCreatingRequest) IsValid() (isValid bool) {
+	if len(er.Title) > maxEventTitleLength {
+		return false
+	}
+	// TODO: add checking of startdate < enddate 
+	return true
+}
+
+type EventCreatingResponse struct {
 	// TODO: define, what is required fields
-	Id					   uint64   `json:"id"`
+	Id                     uint64   `json:"id"`
 	PosterPath             string   `json:"posterpath"`
 	Title                  string   `json:"title"`
 	Rating                 string   `json:"rating"`
@@ -36,9 +47,9 @@ type EventResponse struct {
 	UserId                 string   `json:"userid"`
 	Longitude              string   `json:"longitude"`
 	Latitude               string   `json:"latitude"`
-	CurrentMembersQuantity uint32   `json:"currentmembersquantity"`
-	MaxMembersQuantity     uint32   `json:"maxmembersquantity"`
-	MinMembersQuantity     uint32   `json:"minmembersquantity"`
+	CurrentMembersQuantity uint64   `json:"currentmembersquantity"`
+	MaxMembersQuantity     uint64   `json:"maxmembersquantity"`
+	MinMembersQuantity     uint64   `json:"minmembersquantity"`
 	CreatingDate           string   `json:"creatingdate"`
 	StartDate              string   `json:"startdate"`
 	EndDate                string   `json:"enddate"`
@@ -46,4 +57,34 @@ type EventResponse struct {
 	MaxAge                 string   `json:"maxage"`
 	Price                  string   `json:"price"`
 	Categories             []string `json:"categories"`
+}
+
+
+type EventListResponse struct {
+	EventList []EventCreatingResponse `json:"eventlist"`
+}
+
+type EventRepository interface {
+	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
+	EventAlreadyExist(event EventCreatingRequest) (bool, error)
+	GetEvent(categoryName string) (EventListResponse, error) 
+
+
+	// AddMovie(addMovieInfo MovieInPlaylist) error
+	// DeleteMovie(movieDeleteInfo MovieInPlaylist) error
+	// DeletePlaylist(deletePlaylistInfo DeletePlaylistInfo) error
+	// PlaylistAlreadyExist(playlist PlaylistRequest) (bool, error)
+	// AlterPlaylistPublic(alterPlaylistPublicInfo AlterPlaylistPublicInfo) error
+	// AlterPlaylistTitle(alterPlaylistTitleInfo AlterPlaylistTitleInfo) error
+}
+
+type EventUsecase interface {
+	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
+	GetEvent(categoryName string) (EventListResponse, error)
+	
+	// AddMovie(addMovieInfo MovieInPlaylist) error
+	// DeleteMovie(MovieInPlaylist MovieInPlaylist) error
+	// DeletePlaylist(deletePlaylistInfo DeletePlaylistInfo) error
+	// AlterPlaylistPublic(alterPlaylistPublicInfo AlterPlaylistPublicInfo) error
+	// AlterPlaylistTitle(alterPlaylistTitleInfo AlterPlaylistTitleInfo) error
 }

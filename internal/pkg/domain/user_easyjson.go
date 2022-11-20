@@ -17,7 +17,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson9e1087fdDecodeCodexInternalPkgDomain(in *jlexer.Lexer, out *UserPublicInfo) {
+func easyjson9e1087fdDecodeEventoolInternalPkgDomain(in *jlexer.Lexer, out *UserPublicInfo) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -50,7 +50,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain(in *jlexer.Lexer, out *UserPub
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain(out *jwriter.Writer, in UserPublicInfo) {
+func easyjson9e1087fdEncodeEventoolInternalPkgDomain(out *jwriter.Writer, in UserPublicInfo) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -67,16 +67,30 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain(out *jwriter.Writer, in UserPu
 	out.RawByte('}')
 }
 
+// MarshalJSON supports json.Marshaler interface
+func (v UserPublicInfo) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v UserPublicInfo) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain(w, v)
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *UserPublicInfo) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain(&r, v)
+	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *UserPublicInfo) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain(l, v)
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain(l, v)
 }
-func easyjson9e1087fdDecodeCodexInternalPkgDomain1(in *jlexer.Lexer, out *UserNotificationToken) {
+func easyjson9e1087fdDecodeEventoolInternalPkgDomain1(in *jlexer.Lexer, out *UserNotificationToken) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -107,7 +121,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain1(in *jlexer.Lexer, out *UserNo
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain1(out *jwriter.Writer, in UserNotificationToken) {
+func easyjson9e1087fdEncodeEventoolInternalPkgDomain1(out *jwriter.Writer, in UserNotificationToken) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -119,16 +133,30 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain1(out *jwriter.Writer, in UserN
 	out.RawByte('}')
 }
 
+// MarshalJSON supports json.Marshaler interface
+func (v UserNotificationToken) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain1(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v UserNotificationToken) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain1(w, v)
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain1(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *UserNotificationToken) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain1(&r, v)
+	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *UserNotificationToken) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain1(l, v)
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain1(l, v)
 }
-func easyjson9e1087fdDecodeCodexInternalPkgDomain2(in *jlexer.Lexer, out *UserBasic) {
+func easyjson9e1087fdDecodeEventoolInternalPkgDomain2(in *jlexer.Lexer, out *UserBasic) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -161,7 +189,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain2(in *jlexer.Lexer, out *UserBa
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain2(out *jwriter.Writer, in UserBasic) {
+func easyjson9e1087fdEncodeEventoolInternalPkgDomain2(out *jwriter.Writer, in UserBasic) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -178,16 +206,30 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain2(out *jwriter.Writer, in UserB
 	out.RawByte('}')
 }
 
+// MarshalJSON supports json.Marshaler interface
+func (v UserBasic) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain2(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v UserBasic) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain2(w, v)
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain2(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *UserBasic) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain2(&r, v)
+	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *UserBasic) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain2(l, v)
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain2(l, v)
 }
-func easyjson9e1087fdDecodeCodexInternalPkgDomain3(in *jlexer.Lexer, out *User) {
+func easyjson9e1087fdDecodeEventoolInternalPkgDomain3(in *jlexer.Lexer, out *User) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -212,12 +254,14 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain3(in *jlexer.Lexer, out *User) 
 			out.Username = string(in.String())
 		case "password":
 			out.Password = string(in.String())
+		case "repeatpassword":
+			out.RepeatPassword = string(in.String())
 		case "email":
 			out.Email = string(in.String())
 		case "imgsrc":
 			out.Imgsrc = string(in.String())
-		case "repeatpassword":
-			out.RepeatPassword = string(in.String())
+		case "phonenumber":
+			out.PhoneNumber = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -228,7 +272,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain3(in *jlexer.Lexer, out *User) 
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain3(out *jwriter.Writer, in User) {
+func easyjson9e1087fdEncodeEventoolInternalPkgDomain3(out *jwriter.Writer, in User) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -247,6 +291,11 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain3(out *jwriter.Writer, in User)
 		out.RawString(prefix)
 		out.String(string(in.Password))
 	}
+	if in.RepeatPassword != "" {
+		const prefix string = ",\"repeatpassword\":"
+		out.RawString(prefix)
+		out.String(string(in.RepeatPassword))
+	}
 	{
 		const prefix string = ",\"email\":"
 		out.RawString(prefix)
@@ -257,24 +306,38 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain3(out *jwriter.Writer, in User)
 		out.RawString(prefix)
 		out.String(string(in.Imgsrc))
 	}
-	if in.RepeatPassword != "" {
-		const prefix string = ",\"repeatpassword\":"
+	{
+		const prefix string = ",\"phonenumber\":"
 		out.RawString(prefix)
-		out.String(string(in.RepeatPassword))
+		out.String(string(in.PhoneNumber))
 	}
 	out.RawByte('}')
 }
 
+// MarshalJSON supports json.Marshaler interface
+func (v User) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain3(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v User) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain3(w, v)
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain3(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *User) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain3(&r, v)
+	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *User) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain3(l, v)
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain3(l, v)
 }
-func easyjson9e1087fdDecodeCodexInternalPkgDomain4(in *jlexer.Lexer, out *UpdUser) {
+func easyjson9e1087fdDecodeEventoolInternalPkgDomain4(in *jlexer.Lexer, out *UpdUser) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -295,6 +358,8 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain4(in *jlexer.Lexer, out *UpdUse
 		switch key {
 		case "username":
 			out.Username = string(in.String())
+		case "phonenumber":
+			out.PhoneNumber = string(in.String())
 		case "imgsrc":
 			out.Imgsrc = string(in.String())
 		default:
@@ -307,7 +372,7 @@ func easyjson9e1087fdDecodeCodexInternalPkgDomain4(in *jlexer.Lexer, out *UpdUse
 		in.Consumed()
 	}
 }
-func easyjson9e1087fdEncodeCodexInternalPkgDomain4(out *jwriter.Writer, in UpdUser) {
+func easyjson9e1087fdEncodeEventoolInternalPkgDomain4(out *jwriter.Writer, in UpdUser) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -317,6 +382,11 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain4(out *jwriter.Writer, in UpdUs
 		out.String(string(in.Username))
 	}
 	{
+		const prefix string = ",\"phonenumber\":"
+		out.RawString(prefix)
+		out.String(string(in.PhoneNumber))
+	}
+	{
 		const prefix string = ",\"imgsrc\":"
 		out.RawString(prefix)
 		out.String(string(in.Imgsrc))
@@ -324,12 +394,26 @@ func easyjson9e1087fdEncodeCodexInternalPkgDomain4(out *jwriter.Writer, in UpdUs
 	out.RawByte('}')
 }
 
+// MarshalJSON supports json.Marshaler interface
+func (v UpdUser) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain4(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v UpdUser) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson9e1087fdEncodeCodexInternalPkgDomain4(w, v)
+	easyjson9e1087fdEncodeEventoolInternalPkgDomain4(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *UpdUser) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain4(&r, v)
+	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *UpdUser) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson9e1087fdDecodeCodexInternalPkgDomain4(l, v)
+	easyjson9e1087fdDecodeEventoolInternalPkgDomain4(l, v)
 }

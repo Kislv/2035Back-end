@@ -14,24 +14,25 @@ CREATE TABLE users (
 );
 
 CREATE TABLE events (
-    id                                  BIGINT NOT NULL PRIMARY KEY,
-    poster                              VARCHAR(50) NOT NULL,
+    id                                  BIGSERIAL NOT NULL PRIMARY KEY,
+-- // TODO write valid path
+    poster                              VARCHAR(50) DEFAULT '/static/event/event.png',
     title                               VARCHAR(200) NOT NULL,
     rating                              DOUBLE PRECISION NOT NULL,
     votesnum                            BIGINT NOT NULL,
-    description                         VARCHAR(3000) NOT NULL,
+    description                         VARCHAR(3000),
     userId                              BIGINT REFERENCES users (id) ON DELETE CASCADE,
     longitude                           DOUBLE PRECISION NOT NULL,
     latitude                            DOUBLE PRECISION NOT NULL,
-    currentmembersquantity              INTEGER NOT NULL,
-    maxmembersquantity                  INTEGER,
-    minmembersquantity                  INTEGER,
+    currentmembersquantity              BIGINT NOT NULL,
+    maxmembersquantity                  BIGINT DEFAULT 0,
+    minmembersquantity                  BIGINT DEFAULT 0,
     creatingdate                        TIMESTAMP NOT NULL,
     startdate                           TIMESTAMP NOT NULL,
     enddate                             TIMESTAMP,
-    minage                              SMALLINT,
-    maxage                              SMALLINT,
-    price                               INTEGER
+    minage                              SMALLINT DEFAULT 0,
+    maxage                              SMALLINT DEFAULT 0,
+    price                               BIGINT DEFAULT 0
 );
 
 CREATE TABLE categories (

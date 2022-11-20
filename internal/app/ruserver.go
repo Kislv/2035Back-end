@@ -35,18 +35,18 @@ func RunServer() {
 	defer db.Disconnect()
 
 	setter.SetHandlers(setter.Services{
-		Act: setter.Data{Db: db, Api: api},
-		Mov: setter.Data{Db: db, Api: api},
+		// Act: setter.Data{Db: db, Api: api},
+		// Mov: setter.Data{Db: db, Api: api},
 		Usr: setter.Data{Db: db, Api: api},
-		Col: setter.Data{Db: db, Api: api},
-		Gen: setter.Data{Db: db, Api: api},
-		Ann: setter.Data{Db: db, Api: api},
-		Ser: setter.Data{Db: db, Api: api},
-		Pla: setter.Data{Db: db, Api: api},
-		// announcedRepo: setter.Data{Db: db, Api: api},
+		// Col: setter.Data{Db: db, Api: api},
+		// Gen: setter.Data{Db: db, Api: api},
+		// Ann: setter.Data{Db: db, Api: api},
+		// Ser: setter.Data{Db: db, Api: api},
+		// Pla: setter.Data{Db: db, Api: api},
+		Event: setter.Data{Db: db, Api: api},
 
-		Com: setter.Data{Db: nil, Api: api},
-		Rat: setter.Data{Db: nil, Api: api},
+		// Com: setter.Data{Db: nil, Api: api},
+		// Rat: setter.Data{Db: nil, Api: api},
 		Aut: setter.Data{Db: nil, Api: api},
 	})
 	router.Handle("/metrics", promhttp.Handler())

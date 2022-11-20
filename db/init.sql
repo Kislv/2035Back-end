@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS eventool;
 DROP ROLE IF EXISTS eventool;
 
-CREATE ROLE eventool WITH PASSWORD '1234';
+CREATE ROLE eventool WITH PASSWORD 'eventool';
 ALTER ROLE eventool WITH LOGIN superuser;
 
 CREATE DATABASE eventool

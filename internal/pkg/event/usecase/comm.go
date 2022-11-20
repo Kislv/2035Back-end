@@ -1,44 +1,55 @@
 package plausecase
 
 import (
-	"codex/internal/pkg/domain"
+	"eventool/internal/pkg/domain"
 	"strings"
 )
 
 type EventUsecase struct {
-	playlistRepo domain.Plarepository
+	eventRepo domain.EventRepository
 }
 
 func trimTitle(title *string) {
 	*title = strings.Trim(*title, " ")
 }
 
-func InitPlaUsc(pr domain.Plarepository) domain.EventUsecase {
+func InitEventUsc(pr domain.EventRepository) domain.EventUsecase {
 	return &EventUsecase{
-		playlistRepo: pr,
+		eventRepo: pr,
 	}
 }
 
-func (pu EventUsecase) CreateEvent (eventData domain.EventRequest) (domain.EventResponse, error) {
-	trimTitle(&eventData.Title)
+func (eu EventUsecase) CreateEvent(eventData domain.EventCreatingRequest) (domain.EventCreatingResponse, error) {
+	// trimTitle(&eventData.Title)
 
-	alreadyExist, err := pu.playlistRepo.PlaylistAlreadyExist(playlistData)
+	alreadyExist, err := eu.eventRepo.EventAlreadyExist(eventData)
 	if err != nil {
-		return domain.PlaylistResponse{}, err
+		return domain.EventCreatingResponse{}, err
 	}
 
 	if alreadyExist {
-		return domain.PlaylistResponse{}, domain.Err.ErrObj.PlaylistExist
+		return domain.EventCreatingResponse{}, domain.Err.ErrObj.PlaylistExist
 	}
 
-	if !playlistData.TitleIsValid() {
-		return domain.PlaylistResponse{}, domain.Err.ErrObj.InvalidTitle
+	if !eventData.IsValid() {
+		return domain.EventCreatingResponse{}, domain.Err.ErrObj.InvalidTitle
 	}
 
-	playlistResponse, err := pu.playlistRepo.CreatePlaylist(playlistData)
+	playlistResponse, err := eu.eventRepo.CreateEvent(eventData)
 	if err != nil {
-		return domain.PlaylistResponse{}, err
+		return domain.EventCreatingResponse{}, err
 	}
 
 	return playlistResponse, nil
+}
+
+func (eu EventUsecase) GetEvent(categoryName string) (domain.EventListResponse, error) {
+
+	feed, err := eu.eventRepo.GetEvent(categoryName)
+	
+	if err != nil {
+		return domain.EventListResponse{}, err
+	}
+
+	return feed, nil
 }

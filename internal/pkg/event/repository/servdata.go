@@ -1,49 +1,61 @@
-package plarepository
+package eventrepository
 
 import (
-	"codex/internal/pkg/database"
-	"codex/internal/pkg/domain"
-	"codex/internal/pkg/utils/cast"
-	"codex/internal/pkg/utils/log"
+	"eventool/internal/pkg/database"
+	"eventool/internal/pkg/domain"
+	"eventool/internal/pkg/utils/cast"
+	"eventool/internal/pkg/utils/log"
 )
 
-type dbplarepository struct {
+type dbeventrepository struct {
 	dbm *database.DBManager
 }
 
-func InitPlaRep(manager *database.DBManager) domain.Plarepository {
-	return &dbplarepository{
+func InitEventRep(manager *database.DBManager) domain.EventRepository {
+	return &dbeventrepository{
 		dbm: manager,
 	}
 }
 
-func (pr *dbplarepository) CreatePlaylist(playlist domain.PlaylistRequest) (domain.PlaylistResponse, error) {
-	resp, err := pr.dbm.Query(queryCreatePlaylist, playlist.Title, playlist.Public)
+func (er *dbeventrepository) CreateEvent(event domain.EventCreatingRequest) (domain.EventCreatingResponse, error) {
+	resp, err := er.dbm.Query(queryCreateEvent, event.PosterPath, event.Title,
+								event.Rating, event.VotesNum, event.Description,
+								event.UserId, event.Longitude, event.Latitude,
+								event.CurrentMembersQuantity, event.MaxMembersQuantity,
+								event.MinMembersQuantity, event.CreatingDate, event.StartDate,
+								event.EndDate, event.MinAge, event.MaxAge, event.Price)
 	if err != nil {
-		log.Warn("{CreatePlaylist} in query: " + queryCreatePlaylist)
+		log.Warn("{CreateEvent} in query: " + queryCreateEvent)
 		log.Error(err)
-		return domain.PlaylistResponse{}, err
+		return domain.EventCreatingResponse{}, err
 	}
 
-	_, err = pr.dbm.Query(queryCreatePlaylistUser, playlist.UserId, cast.ToUint64(resp[0][0]))
-	if err != nil {
-		log.Warn("{CreatePlaylist} in query: " + queryCreatePlaylistUser)
-		log.Error(err)
-		return domain.PlaylistResponse{}, err
-	}
-
-	return domain.PlaylistResponse{
-		ID:     cast.IntToStr(cast.ToUint64(resp[0][0])),
-		Title:  cast.ToString(resp[0][1]),
-		ImgSrc: cast.ToString(resp[0][2]),
-		Public: cast.ToBool(resp[0][3]),
+	return domain.EventCreatingResponse{
+		Id:     					cast.ToUint64(resp[0][0]),
+		PosterPath:    				cast.ToString(resp[0][1]),
+		Title:  					cast.ToString(resp[0][2]),
+		Rating:  					cast.ToString(resp[0][3]),
+		VotesNum:  					cast.ToUint64(resp[0][4]),
+		Description:  				cast.ToString(resp[0][5]),
+		UserId:  					cast.ToString(resp[0][6]),
+		Longitude:  				cast.ToString(resp[0][7]),
+		Latitude:  					cast.ToString(resp[0][8]),
+		CurrentMembersQuantity:  	cast.ToUint64(resp[0][9]),
+		MaxMembersQuantity:  		cast.ToUint64(resp[0][10]),
+		MinMembersQuantity:  		cast.ToUint64(resp[0][11]),
+		CreatingDate:  				cast.ToString(resp[0][12]),
+		StartDate:  				cast.ToString(resp[0][13]),
+		EndDate:  					cast.ToString(resp[0][14]),
+		MinAge:  					cast.ToString(resp[0][15]),
+		MaxAge:  					cast.ToString(resp[0][16]),
+		Price:  					cast.ToString(resp[0][17]),
 	}, nil
 }
 
-func (pr *dbplarepository) PlaylistAlreadyExist(playlist domain.PlaylistRequest) (bool, error) {
-	resp, err := pr.dbm.Query(queryPlaylistExist, playlist.UserId, playlist.Title)
+func (er *dbeventrepository) EventAlreadyExist(event domain.EventCreatingRequest) (bool, error) {
+	resp, err := er.dbm.Query(queryCheckEvent, event.Title, event.Longitude, event.Latitude)
 	if err != nil {
-		log.Warn("{CreatePlaylist} in query: " + queryCreatePlaylist)
+		log.Warn("{EventCreating} in query: " + queryCheckEvent)
 		log.Error(err)
 		return false, err
 	}
@@ -54,57 +66,58 @@ func (pr *dbplarepository) PlaylistAlreadyExist(playlist domain.PlaylistRequest)
 	return false, nil
 }
 
-func (pr *dbplarepository) AddMovie(addMovieInfo domain.MovieInPlaylist) error {
-	_, err := pr.dbm.Query(queryAddMovie, addMovieInfo.PlaylistId, addMovieInfo.MovieId)
-	if err != nil {
-		log.Warn("{AddMovie} in query: " + queryAddMovie)
-		log.Error(err)
-		return err
+
+func (cr *dbeventrepository) GetEvent(categoryName string) (domain.EventListResponse, error) {
+	var resp []database.DBbyterow 
+	var err error
+	query := ""
+	if categoryName != "all"{
+		query = queryGetEventList
+		resp, err = cr.dbm.Query(query, categoryName)
+	} else {
+		query = queryGetAllEventList
+		resp, err = cr.dbm.Query(query)
 	}
 
-	return nil
-}
-
-func (pr *dbplarepository) DeleteMovie(MovieInPlaylist domain.MovieInPlaylist) error {
-	_, err := pr.dbm.Query(queryDeleteMovie, MovieInPlaylist.PlaylistId, MovieInPlaylist.MovieId)
 	if err != nil {
-		log.Warn("{DeleteMovie} in query: " + queryDeleteMovie)
+		log.Warn("{GetEvent} in query: " + query)
 		log.Error(err)
-		return err
+		return domain.EventListResponse{}, domain.Err.ErrObj.InternalServer
 	}
 
-	return nil
-}
-
-func (pr *dbplarepository) DeletePlaylist(deletePlaylistInfo domain.DeletePlaylistInfo) error {
-	_, err := pr.dbm.Query(queryDeletePlaylist, deletePlaylistInfo.PlaylistId)
-	if err != nil {
-		log.Warn("{DeletePlaylist} in query: " + queryDeletePlaylist)
-		log.Error(err)
-		return err
+	if len(resp) == 0 {
+		log.Warn("{GetMovies}")
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.EventListResponse{}, domain.Err.ErrObj.SmallDb
+	}
+	
+	events := make([]domain.EventCreatingResponse, 0)
+	for i := range resp {
+		events = append(events, domain.EventCreatingResponse{
+			Id:     					cast.ToUint64(resp[i][0]),
+			PosterPath:    				cast.ToString(resp[i][1]),
+			Title:  					cast.ToString(resp[i][2]),
+			Rating:  					cast.FlToStr((cast.ToFloat64(resp[i][3]))),
+			VotesNum:  					cast.ToUint64(resp[i][4]),
+			Description:  				cast.ToString(resp[i][5]),
+			UserId:  					cast.ToString(resp[i][6]),
+			Longitude:  				cast.FlToStr((cast.ToFloat64(resp[i][7]))),
+			Latitude:  					cast.FlToStr((cast.ToFloat64(resp[i][8]))),
+			CurrentMembersQuantity:  	cast.ToUint64(resp[i][9]),
+			MaxMembersQuantity:  		cast.ToUint64(resp[i][10]),
+			MinMembersQuantity:  		cast.ToUint64(resp[i][11]),
+			CreatingDate:  				cast.ToString(resp[i][12]),
+			StartDate:  				cast.ToString(resp[i][13]),
+			EndDate:  					cast.ToString(resp[i][14]),
+			MinAge:  					cast.ToString(resp[i][15]),
+			MaxAge:  					cast.ToString(resp[i][16]),
+			Price:  					cast.ToString(resp[i][17]),
+		})
 	}
 
-	return nil
-}
-
-func (pr *dbplarepository) AlterPlaylistPublic(alterPlaylistPublicInfo domain.AlterPlaylistPublicInfo) error {
-	_, err := pr.dbm.Query(queryAlterPlaylistPublic, alterPlaylistPublicInfo.PlaylistId, alterPlaylistPublicInfo.Public)
-	if err != nil {
-		log.Warn("{AlterPlaylistPublic} in query: " + queryAlterPlaylistPublic)
-		log.Error(err)
-		return err
+	out := domain.EventListResponse{
+		EventList: events,
 	}
 
-	return nil
-}
-
-func (pr *dbplarepository) AlterPlaylistTitle(alterPlaylistTitleInfo domain.AlterPlaylistTitleInfo) error {
-	_, err := pr.dbm.Query(queryAlterPlaylistTitle, alterPlaylistTitleInfo.PlaylistId, alterPlaylistTitleInfo.NewTitle)
-	if err != nil {
-		log.Warn("{AlterPlaylistTitle} in query: " + queryAlterPlaylistTitle)
-		log.Error(err)
-		return err
-	}
-
-	return nil
+	return out, nil
 }

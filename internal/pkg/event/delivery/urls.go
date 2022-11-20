@@ -3,7 +3,7 @@ package eventdelivery
 const (
 	eventUrl       = "/event"
 	CreateEventUrl = eventUrl + "/create"
-	GetEventUrl    = eventUrl + "/get"
-	DeleteEventUrl = eventUrl + "/delete"
-	AlterEventUrl  = eventUrl + "/alter"
+	GetEventUrl    = eventUrl + "/get/{category:[a-z]+}"
+	// DeleteEventUrl = eventUrl + "/delete"
+	// AlterEventUrl  = eventUrl + "/alter"
 )
