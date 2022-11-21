@@ -50,7 +50,7 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		Username:       userForm.Username,
 		Password:       userForm.Password,
 		RepeatPassword: userForm.RepeatPassword,
-		Phonenumber:	userForm.PhoneNumber,
+		PhoneNumber:    userForm.PhoneNumber,
 		Email:          userForm.Email,
 		Imgsrc:         userForm.Imgsrc,
 	})

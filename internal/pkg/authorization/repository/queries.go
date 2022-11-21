@@ -2,7 +2,7 @@ package autrepository
 
 const (
 	queryGetByEmail = `
-	SELECT id, username, email, imgsrc, password
+	SELECT id, username, email, imgsrc, password, phonenumber
 	FROM users
 	WHERE email = $1;
 	`
@@ -15,18 +15,10 @@ const (
 
 	queryAddUser = `
 	INSERT INTO
-		users (username, email, password)
+		users (username, email, password, phonenumber)
 	VALUES
-		($1, $2, $3)
+		($1, $2, $3, $4)
 	RETURNING id;
-	`
-	queryAddBasicPlaylists = `
-    INSERT INTO
-        playlists (title)
-    VALUES
-        ('Посмотреть позже'),
-		('Мне нравится')
-    RETURNING id;
 	`
 
 	queryBindBasicPlaylists = `

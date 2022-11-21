@@ -3,32 +3,32 @@ INSERT INTO
 VALUES
     (
         'Ванька',
-        '1234abcd', 
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'ivan@vk.ru',
         '79167777777'
     ),
     (
         'tmp1',
-        '1234abcd', 
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp1@vk.ru',
         '79167777777'
 
     ),
     (
         'tmp2',
-        '1234abcd',
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp2@vk.ru',
         '79167777777'
     ),
     (
         'tmp3',
-        '1234abcd', 
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp3@vk.ru',
         '79167777777'
     ),
     (
         'tmp4',
-        '1234abcd',
+        '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp4@vk.ru',
         '79167777777'
     );

@@ -19,13 +19,24 @@ func InitAutRep(manager *database.DBManager) domain.AuthRepository {
 	}
 }
 
-func (ur *dbAuthRepository) GetByEmail(email string) (domain.User, error) {
+func (ur *dbAuthRepository) GetByEmail(email string, isFound bool) (domain.User, error) {
 	resp, err := ur.dbm.Query(queryGetByEmail, email)
+	log.Info("email = " + email)
 	if len(resp) == 0 {
+		if (!isFound) {
+			return domain.User{}, nil
+		}
 		log.Warn("{GetByEmail}")
 		log.Error(domain.Err.ErrObj.NoUser)
 		return domain.User{}, domain.Err.ErrObj.NoUser
+	} else {
+		if (!isFound){
+			log.Warn("{GetByEmail}")
+			log.Error(domain.Err.ErrObj.EmailExists)
+			return domain.User{}, domain.Err.ErrObj.EmailExists
+		}
 	}
+	
 	if err != nil {
 		log.Warn("{GetByEmail} in query: " + queryGetByEmail)
 		log.Error(err)
@@ -40,6 +51,7 @@ func (ur *dbAuthRepository) GetByEmail(email string) (domain.User, error) {
 		Email:          cast.ToString(row[2]),
 		Imgsrc:         cast.ToString(row[3]),
 		RepeatPassword: cast.ToString(row[4]),
+		PhoneNumber:    cast.ToString(row[5]),
 	}
 
 	return out, nil
@@ -79,7 +91,7 @@ func (ur *dbAuthRepository) AddUser(us domain.User) (uint64, error) {
 		return 0, domain.Err.ErrObj.InternalServer
 	}
 
-	resp, err := ur.dbm.Query(queryAddUser, us.Username, us.Email, passwordByte)
+	resp, err := ur.dbm.Query(queryAddUser, us.Username, us.Email, passwordByte, us.PhoneNumber)
 	if err != nil {
 		log.Warn("{AddUser} in query: " + queryAddUser)
 		log.Error(err)
@@ -87,20 +99,21 @@ func (ur *dbAuthRepository) AddUser(us domain.User) (uint64, error) {
 	}
 	userId := cast.ToUint64(resp[0][0])
 
-	resp, err = ur.dbm.Query(queryAddBasicPlaylists)
-	if err != nil {
-		log.Warn("{AddUser} in query: " + queryAddBasicPlaylists)
-		log.Error(err)
-		return 0, err
-	}
-	firstBasicPlaylistId := cast.ToUint64(resp[0][0])
-	secondBasicPlaylistId := cast.ToUint64(resp[1][0])
-	_, err = ur.dbm.Query(queryBindBasicPlaylists, userId, firstBasicPlaylistId, secondBasicPlaylistId)
-	if err != nil {
-		log.Warn("{AddUser} in query: " + queryBindBasicPlaylists)
-		log.Error(err)
-		return 0, err
-	}
+	// resp, err = ur.dbm.Query(queryAddBasicPlaylists)
+	// if err != nil {
+	// 	log.Warn("{AddUser} in query: " + queryAddBasicPlaylists)
+	// 	log.Error(err)
+	// 	return 0, err
+	// }
+
+	// firstBasicPlaylistId := cast.ToUint64(resp[0][0])
+	// secondBasicPlaylistId := cast.ToUint64(resp[1][0])
+	// _, err = ur.dbm.Query(queryBindBasicPlaylists, userId, firstBasicPlaylistId, secondBasicPlaylistId)
+	// if err != nil {
+	// 	log.Warn("{AddUser} in query: " + queryBindBasicPlaylists)
+	// 	log.Error(err)
+	// 	return 0, err
+	// }
 
 	return userId, nil
 }

@@ -40,7 +40,7 @@ func validatePhoneNumber(phoneNumber string) error {
 			return domain.Err.ErrObj.InvalidPhoneNumber
 		}
 	}
-	if len(phoneNumber) < minPhoneLen  || len(phoneNumber) < maxPhoneLen{
+	if len(phoneNumber) < minPhoneLen  || len(phoneNumber) > maxPhoneLen{
 		return domain.Err.ErrObj.InvalidPhoneNumber
 	}
 	return nil

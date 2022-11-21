@@ -3,6 +3,7 @@ package autusecase
 import (
 	"eventool/internal/pkg/authorization/delivery/grpc"
 	"eventool/internal/pkg/domain"
+	"eventool/internal/pkg/utils/log"
 
 	"context"
 
@@ -21,9 +22,9 @@ func InitAutUsc(ar domain.AuthRepository) grpc.AutherServer {
 }
 
 func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, error) {
-	trimCredentials(&us.Email, &us.Username, &us.Password, &us.RepeatPassword, &us.Phonenumber)
+	trimCredentials(&us.Email, &us.Username, &us.Password, &us.RepeatPassword, &us.PhoneNumber)
 
-	if us.Email == "" || us.Username == "" || us.Password == "" || us.RepeatPassword == "" {
+	if us.Email == "" || us.Username == "" || us.Password == "" || us.RepeatPassword == "" || us.PhoneNumber == "" {
 		return nil, domain.Err.ErrObj.EmptyField
 	}
 
@@ -39,7 +40,7 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 		return nil, err
 	}
 
-	if err := validatePhoneNumber(us.Phonenumber); err != nil {
+	if err := validatePhoneNumber(us.PhoneNumber); err != nil {
 		return nil, err
 	}
 
@@ -47,8 +48,8 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 		return nil, domain.Err.ErrObj.UnmatchedPasswords
 	}
 
-	if _, err := au.authRepo.GetByEmail(us.Email); err == nil {
-		return nil, domain.Err.ErrObj.EmailExists
+	if _, err := au.authRepo.GetByEmail(us.Email, false); err != nil {
+		return nil, err
 	}
 
 	idupd, err := au.authRepo.AddUser(domain.User{
@@ -58,6 +59,7 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 		Email:          us.GetEmail(),
 		Imgsrc:         us.GetImgsrc(),
 		RepeatPassword: us.GetRepeatPassword(),
+		PhoneNumber:    us.GetPhoneNumber(),
 	})
 	if err != nil {
 		return nil, err
@@ -81,12 +83,19 @@ func (au authUsecase) Login(ctx context.Context, ub *grpc.UserBasic) (*grpc.User
 		return nil, domain.Err.ErrObj.EmptyField
 	}
 
-	usr, err := au.authRepo.GetByEmail(ub.Email)
+	usr, err := au.authRepo.GetByEmail(ub.Email, true)
 	if err != nil {
 		return nil, err
 	}
-
+	log.Info("usr.Email = " + usr.Email)
+	log.Info("usr.Imgsrc = " + usr.Imgsrc)
+	log.Info("usr.Password = " + usr.Password)
+	log.Info("usr.PhoneNumber = " + usr.PhoneNumber)
+	log.Info("ub.Password = " + ub.Password)
 	if err := bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(ub.Password)); err != nil {
+		log.Info("string([]byte(usr.Password)) = " + string([]byte(usr.Password)))
+		log.Info("string([]byte(ub.Password)) = " + string([]byte(ub.Password)))
+		log.Info("err = " + err.Error())
 		return nil, domain.Err.ErrObj.BadPassword
 	}
 

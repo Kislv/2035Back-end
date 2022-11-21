@@ -2,7 +2,7 @@ package domain
 
 type AuthRepository interface {
 	GetById(id uint64) (User, error)
-	GetByEmail(email string) (User, error)
+	GetByEmail(email string, isFound bool) (User, error)
 	AddUser(user User) (uint64, error)
 }
 

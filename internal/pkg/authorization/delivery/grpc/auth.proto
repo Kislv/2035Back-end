@@ -16,7 +16,7 @@ message User {
   string password = 4;
   string imgsrc = 5;
   string repeatPassword = 6;
-  string Phonenumber = 7;
+  string PhoneNumber = 7;
 }
 
 message UserBasic {
