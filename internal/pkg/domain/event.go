@@ -64,10 +64,20 @@ type EventListResponse struct {
 	EventList []EventCreatingResponse `json:"eventlist"`
 }
 
+type CategoryResponse struct {
+	Name             string   `json:"name"`
+	ImagePath             string   `json:"ImagePath"`
+}
+
+type CategoryListResponse struct {
+	CategoryList []CategoryResponse `json:"categorylist"`
+}
+
 type EventRepository interface {
 	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
 	EventAlreadyExist(event EventCreatingRequest) (bool, error)
 	GetEvent(categoryName string) (EventListResponse, error) 
+	GetCategory() (CategoryListResponse, error)
 
 
 	// AddMovie(addMovieInfo MovieInPlaylist) error
@@ -81,6 +91,8 @@ type EventRepository interface {
 type EventUsecase interface {
 	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
 	GetEvent(categoryName string) (EventListResponse, error)
+	GetCategory() (CategoryListResponse, error)
+	
 	
 	// AddMovie(addMovieInfo MovieInPlaylist) error
 	// DeleteMovie(MovieInPlaylist MovieInPlaylist) error

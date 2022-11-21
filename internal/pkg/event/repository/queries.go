@@ -45,4 +45,10 @@ const (
 	FROM events
 	ORDER BY events.id;
 	`
+
+	queryGetCategoryList = `
+	SELECT name, imagePath
+	FROM categories
+	ORDER BY categories.name;
+	`
 )

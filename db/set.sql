@@ -36,7 +36,8 @@ CREATE TABLE events (
 );
 
 CREATE TABLE categories (
-    name                                VARCHAR(100) NOT NULL PRIMARY KEY
+    name                                VARCHAR(100) NOT NULL PRIMARY KEY,
+    imagePath                           VARCHAR(100) DEFAULT '/static/event/sport.svg'
 );
 
 CREATE TABLE events_categories (

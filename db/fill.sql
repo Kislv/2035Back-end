@@ -94,22 +94,27 @@ VALUES
     );
 
 INSERT INTO
-    categories (name)
+    categories (name, imagePath)
 VALUES
     (
-        'sport'
+        'sport',
+        '/static/event/sport.png'
     ),
     (
-        'house'
+        'house',
+        '/static/event/sport.png'
     ),
     (
-        'business'
+        'business',
+        '/static/event/sport.png'
     ),
     (
-        'learn'
+        'learn',
+        '/static/event/sport.png'
     ),
     (
-        'food'
+        'food',
+        '/static/event/sport.png'
     );
 
 INSERT INTO

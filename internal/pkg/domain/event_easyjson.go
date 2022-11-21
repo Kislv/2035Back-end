@@ -542,3 +542,174 @@ func (v *EventCreatingRequest) UnmarshalJSON(data []byte) error {
 func (v *EventCreatingRequest) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjsonF642ad3eDecodeEventoolInternalPkgDomain2(l, v)
 }
+func easyjsonF642ad3eDecodeEventoolInternalPkgDomain3(in *jlexer.Lexer, out *CategoryResponse) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeFieldName(false)
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "name":
+			out.Name = string(in.String())
+		case "ImagePath":
+			out.ImagePath = string(in.String())
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonF642ad3eEncodeEventoolInternalPkgDomain3(out *jwriter.Writer, in CategoryResponse) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"name\":"
+		out.RawString(prefix[1:])
+		out.String(string(in.Name))
+	}
+	{
+		const prefix string = ",\"ImagePath\":"
+		out.RawString(prefix)
+		out.String(string(in.ImagePath))
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v CategoryResponse) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonF642ad3eEncodeEventoolInternalPkgDomain3(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v CategoryResponse) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonF642ad3eEncodeEventoolInternalPkgDomain3(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *CategoryResponse) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonF642ad3eDecodeEventoolInternalPkgDomain3(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *CategoryResponse) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonF642ad3eDecodeEventoolInternalPkgDomain3(l, v)
+}
+func easyjsonF642ad3eDecodeEventoolInternalPkgDomain4(in *jlexer.Lexer, out *CategoryListResponse) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeFieldName(false)
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "categorylist":
+			if in.IsNull() {
+				in.Skip()
+				out.CategoryList = nil
+			} else {
+				in.Delim('[')
+				if out.CategoryList == nil {
+					if !in.IsDelim(']') {
+						out.CategoryList = make([]CategoryResponse, 0, 2)
+					} else {
+						out.CategoryList = []CategoryResponse{}
+					}
+				} else {
+					out.CategoryList = (out.CategoryList)[:0]
+				}
+				for !in.IsDelim(']') {
+					var v10 CategoryResponse
+					(v10).UnmarshalEasyJSON(in)
+					out.CategoryList = append(out.CategoryList, v10)
+					in.WantComma()
+				}
+				in.Delim(']')
+			}
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonF642ad3eEncodeEventoolInternalPkgDomain4(out *jwriter.Writer, in CategoryListResponse) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	{
+		const prefix string = ",\"categorylist\":"
+		out.RawString(prefix[1:])
+		if in.CategoryList == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+			out.RawString("null")
+		} else {
+			out.RawByte('[')
+			for v11, v12 := range in.CategoryList {
+				if v11 > 0 {
+					out.RawByte(',')
+				}
+				(v12).MarshalEasyJSON(out)
+			}
+			out.RawByte(']')
+		}
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v CategoryListResponse) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonF642ad3eEncodeEventoolInternalPkgDomain4(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v CategoryListResponse) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonF642ad3eEncodeEventoolInternalPkgDomain4(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *CategoryListResponse) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonF642ad3eDecodeEventoolInternalPkgDomain4(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *CategoryListResponse) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonF642ad3eDecodeEventoolInternalPkgDomain4(l, v)
+}

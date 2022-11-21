@@ -121,3 +121,36 @@ func (cr *dbeventrepository) GetEvent(categoryName string) (domain.EventListResp
 
 	return out, nil
 }
+
+
+func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) {
+	var resp []database.DBbyterow 
+	var err error
+	resp, err = cr.dbm.Query(queryGetCategoryList)
+
+	if err != nil {
+		log.Warn("{GetCategory} in query: " + queryGetCategoryList)
+		log.Error(err)
+		return domain.CategoryListResponse{}, domain.Err.ErrObj.InternalServer
+	}
+
+	if len(resp) == 0 {
+		log.Warn("{GetCategory}")
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.CategoryListResponse{}, domain.Err.ErrObj.SmallDb
+	}
+	
+	categoryList := make([]domain.CategoryResponse, 0)
+	for i := range resp {
+		categoryList = append(categoryList, domain.CategoryResponse{
+			Name:    				cast.ToString(resp[i][0]),
+			ImagePath:    			cast.ToString(resp[i][1]),
+		})
+	}
+
+	out := domain.CategoryListResponse{
+		CategoryList: categoryList,
+	}
+
+	return out, nil
+}

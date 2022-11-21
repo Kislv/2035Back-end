@@ -53,3 +53,14 @@ func (eu EventUsecase) GetEvent(categoryName string) (domain.EventListResponse, 
 
 	return feed, nil
 }
+
+func (eu EventUsecase) GetCategory() (domain.CategoryListResponse, error) {
+
+	categoryList, err := eu.eventRepo.GetCategory()
+	
+	if err != nil {
+		return domain.CategoryListResponse{}, err
+	}
+
+	return categoryList, nil
+}

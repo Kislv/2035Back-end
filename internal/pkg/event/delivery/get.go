@@ -69,3 +69,21 @@ func (handler *EventHandler) GetEvent(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write(out)
 }
+
+
+func (handler *EventHandler) GetCategory(w http.ResponseWriter, r *http.Request) {
+	categoryList, err := handler.EventUsecase.GetCategory()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	
+	out, err := easyjson.Marshal(categoryList)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
+		return
+	}
+	
+	w.WriteHeader(http.StatusOK)
+	w.Write(out)
+}
