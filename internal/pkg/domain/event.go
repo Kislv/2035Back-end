@@ -82,7 +82,7 @@ type CategoryListResponse struct {
 type EventRepository interface {
 	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
 	EventAlreadyExist(event EventCreatingRequest) (bool, error)
-	GetEvent(categoryName string) (EventListResponse, error) 
+	GetEvent(categoriesName []string) (EventListResponse, error)  
 	GetCategory() (CategoryListResponse, error)
 	CreateEventCategory(eventId uint64, categories []string) ([]string, error)
 
@@ -98,7 +98,7 @@ type EventRepository interface {
 
 type EventUsecase interface {
 	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
-	GetEvent(categoryName string) (EventListResponse, error)
+	GetEvent(categoriesName []string) (EventListResponse, error) 
 	GetCategory() (CategoryListResponse, error)
 	
 	

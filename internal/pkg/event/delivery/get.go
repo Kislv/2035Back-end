@@ -4,10 +4,12 @@ import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/sessions"
 	"eventool/internal/pkg/utils/sanitizer"
+	"strings"
 
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
+
+	// "github.com/gorilla/mux"
 
 	"github.com/mailru/easyjson"
 )
@@ -53,10 +55,11 @@ func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request)
 }
 
 func (handler *EventHandler) GetEvent(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	categoryName := params["category"]
+	categoryString := r.URL.Query().Get("category")
+	categories := strings.Split(categoryString, " ")
+
 	
-	eventList, err := handler.EventUsecase.GetEvent(categoryName)
+	eventList, err := handler.EventUsecase.GetEvent(categories)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

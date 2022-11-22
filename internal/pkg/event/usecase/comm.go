@@ -45,9 +45,9 @@ func (eu EventUsecase) CreateEvent(eventData domain.EventCreatingRequest) (domai
 	return eventCreatingResponse, nil
 }
 
-func (eu EventUsecase) GetEvent(categoryName string) (domain.EventListResponse, error) {
-
-	feed, err := eu.eventRepo.GetEvent(categoryName)
+func (eu EventUsecase) GetEvent(categoriesName []string) (domain.EventListResponse, error) {
+	
+	feed, err := eu.eventRepo.GetEvent(categoriesName)
 	
 	if err != nil {
 		return domain.EventListResponse{}, err

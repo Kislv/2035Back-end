@@ -27,12 +27,13 @@ const (
     )
 	RETURNING id, poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price;
 	`
-
-	queryGetEventList = `
+	
+	queryGetEventListFirstPart = `
 	SELECT id, poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price
 	FROM events
 	JOIN events_categories ON events.id = events_categories.eventId
-	WHERE events_categories.category = $1
+	WHERE events_categories.category IN `
+	queryGetEventListSecondPart = ` 
 	ORDER BY events.id;
 	`
 

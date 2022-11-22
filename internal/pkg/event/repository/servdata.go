@@ -5,6 +5,7 @@ import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/utils/cast"
 	"eventool/internal/pkg/utils/log"
+	"strings"
 	"time"
 )
 
@@ -92,13 +93,33 @@ func (er *dbeventrepository) EventAlreadyExist(event domain.EventCreatingRequest
 }
 
 
-func (cr *dbeventrepository) GetEvent(categoryName string) (domain.EventListResponse, error) {
+func (cr *dbeventrepository) GetEvent(categoriesName []string) (domain.EventListResponse, error) {
 	var resp []database.DBbyterow 
 	var err error
 	query := ""
-	if categoryName != "all"{
-		query = queryGetEventList
-		resp, err = cr.dbm.Query(query, categoryName)
+	if categoriesName[0] != "all"{
+		// query = queryGetEventListFirstPart
+		var sb strings.Builder
+		sb.WriteString(queryGetEventListFirstPart)
+		sb.WriteString("(")
+		for i, _ := range(categoriesName){
+			if i != len(categoriesName) - 1{
+				sb.WriteString("'")
+				sb.WriteString(categoriesName[i])
+				sb.WriteString("'")
+				sb.WriteString(",")
+			} else {
+				sb.WriteString("'")
+				sb.WriteString(categoriesName[i])
+				sb.WriteString("'")
+
+			}
+		}
+		sb.WriteString(")")
+		sb.WriteString(queryGetEventListSecondPart)
+		query = sb.String()
+		// TODO: sql injection
+		resp, err = cr.dbm.Query(sb.String())
 	} else {
 		query = queryGetAllEventList
 		resp, err = cr.dbm.Query(query)
