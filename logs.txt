@@ -1,10 +1,11 @@
-Tue, 22 Nov 2022 03:38:40 MSK INF database.go:60: Successful connection to postgres
-Tue, 22 Nov 2022 03:38:40 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
-Tue, 22 Nov 2022 03:39:49 MSK ERR error="tx is closed"
-Tue, 22 Nov 2022 03Tue, 22 Nov 2022 03:39:49 MSK INF [POST] 127.0.0.1:44184, /api/v1/login 57.526589ms
-Tue, 22 Nov 2022 03:42:16 MSK ERR error="tx is closed"
-Tue, 22 Nov 2022 03:42:17 MSK ERR error="tx is closed"
-Tue, 22 Nov 2022 03:42:17 MSK INF [POST] 127.0.0.1:53270, /api/v1/event/create 128.956113ms
-ILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq
-Tue, 22 Nov 2022 03:39:49 MSK INF comm.go:93: usr.PhoneNumber = 79167777777
-Tue, 22 Nov 2022 03:39:49 MSK INF comm.go:94: ub.Password = 1234abcd
+Tue, 22 Nov 2022 04:31:22 MSK INF database.go:60: Successful connection to postgres
+Tue, 22 Nov 2022 04:31:22 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
+Tue, 22 Nov 2022 04:31:56 MSK ERR error="tx is closed"
+Tue, 22 Nov 2022 04Tue, 22 Nov 2022 04:31:56 MSK INF [POST] 127.0.0.1:53194, /api/v1/login 92.194015ms
+Tue, 22 Nov 2022 04:32:17 MSK ERR error="tx is closed"
+Tue, 22 Nov 2022 04:32:18 MSK ERR error="tx is closed"
+Tue, 22 Nov 2022 04:32:18 MSK ERR error="tx is closed"
+Tue, 22 Nov 2022 04:32:18 MSK ERR error="tx is closed"
+Tue, 22 Nov 2022 04:32:18 MSK INF [POST] 127.0.0.1:45844, /api/v1/event/create 943.728791ms
+7777777
+Tue, 22 Nov 2022 04:31:56 MSK INF comm.go:94: ub.Password = 1234abcd

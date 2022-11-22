@@ -51,6 +51,32 @@ func (er *dbeventrepository) CreateEvent(event domain.EventCreatingRequest) (dom
 	}, nil
 }
 
+func (er *dbeventrepository) CreateEventCategory(eventId uint64, categories []string) ([]string, error) {
+	// var sb strings.Builder
+	// sb.WriteString(queryCreateEventCategoryFirstPart)
+	// for i, el := range(categories) {
+	// 	sb.WriteString(queryCreateEventCategorySecondPart)
+	// 	sb.WriteString(string(i * 2))
+	// 	sb.WriteString(queryCreateEventCategoryThirdPart)
+	// 	sb.WriteString(string(i * 2 + 1))
+	// 	sb.WriteString(queryCreateEventCategoryForthPart)
+	// 	sb.WriteString(",")
+	// }
+	// sb.WriteString(queryCreateEventCategoryFifthPart)
+	// var resp []database.DBbyterow
+	var err error
+	for i, _ := range(categories) {
+		_, err = er.dbm.Query(queryCreateEventCategory, eventId, categories[i])
+		if err != nil {
+			log.Warn("{CreateEventCategory} in query: " + queryCreateEventCategory)
+			log.Error(err)
+			return nil, err
+		}
+	}
+
+	return categories, nil
+}
+
 func (er *dbeventrepository) EventAlreadyExist(event domain.EventCreatingRequest) (bool, error) {
 	resp, err := er.dbm.Query(queryCheckEvent, event.Title, event.Longitude, event.Latitude)
 	if err != nil {

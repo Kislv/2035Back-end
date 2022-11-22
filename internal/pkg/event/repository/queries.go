@@ -47,4 +47,27 @@ const (
 	FROM categories
 	ORDER BY categories.name;
 	`
+// 	queryCreateEventCategoryFirstPart = `
+// 	INSERT INTO
+//     events_categories (eventId, category)
+// 	VALUES`
+//     queryCreateEventCategorySecondPart = `
+// 	(
+// 		$`
+// 	queryCreateEventCategoryThirdPart = `,
+//         $`
+// 	queryCreateEventCategoryForthPart = `
+//     )`
+// 	queryCreateEventCategoryFifthPart = `
+// 	RETURNING eventId, category;`
+
+	queryCreateEventCategory = `
+	INSERT INTO
+	events_categories (eventId, category)
+	VALUES
+	(
+		$1,
+		$2
+	)
+	RETURNING eventId, category;`
 )

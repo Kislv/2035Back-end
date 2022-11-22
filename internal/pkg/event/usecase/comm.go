@@ -20,8 +20,6 @@ func InitEventUsc(pr domain.EventRepository) domain.EventUsecase {
 }
 
 func (eu EventUsecase) CreateEvent(eventData domain.EventCreatingRequest) (domain.EventCreatingResponse, error) {
-	// trimTitle(&eventData.Title)
-
 	alreadyExist, err := eu.eventRepo.EventAlreadyExist(eventData)
 	if err != nil {
 		return domain.EventCreatingResponse{}, err
@@ -35,12 +33,16 @@ func (eu EventUsecase) CreateEvent(eventData domain.EventCreatingRequest) (domai
 		return domain.EventCreatingResponse{}, domain.Err.ErrObj.InvalidTitle
 	}
 
-	playlistResponse, err := eu.eventRepo.CreateEvent(eventData)
+	eventCreatingResponse, err := eu.eventRepo.CreateEvent(eventData)
 	if err != nil {
 		return domain.EventCreatingResponse{}, err
 	}
 
-	return playlistResponse, nil
+	eventCreatingResponse.Categories, err = eu.eventRepo.CreateEventCategory(eventCreatingResponse.Id, eventData.Categories)
+	if err != nil {
+		return domain.EventCreatingResponse{}, err
+	}
+	return eventCreatingResponse, nil
 }
 
 func (eu EventUsecase) GetEvent(categoryName string) (domain.EventListResponse, error) {

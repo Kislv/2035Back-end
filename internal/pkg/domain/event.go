@@ -73,6 +73,8 @@ type EventRepository interface {
 	EventAlreadyExist(event EventCreatingRequest) (bool, error)
 	GetEvent(categoryName string) (EventListResponse, error) 
 	GetCategory() (CategoryListResponse, error)
+	CreateEventCategory(eventId uint64, categories []string) ([]string, error)
+
 
 
 	// AddMovie(addMovieInfo MovieInPlaylist) error
