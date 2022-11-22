@@ -262,6 +262,29 @@ func easyjson9e1087fdDecodeEventoolInternalPkgDomain3(in *jlexer.Lexer, out *Use
 			out.Imgsrc = string(in.String())
 		case "phonenumber":
 			out.PhoneNumber = string(in.String())
+		case "categories":
+			if in.IsNull() {
+				in.Skip()
+				out.Categories = nil
+			} else {
+				in.Delim('[')
+				if out.Categories == nil {
+					if !in.IsDelim(']') {
+						out.Categories = make([]string, 0, 4)
+					} else {
+						out.Categories = []string{}
+					}
+				} else {
+					out.Categories = (out.Categories)[:0]
+				}
+				for !in.IsDelim(']') {
+					var v1 string
+					v1 = string(in.String())
+					out.Categories = append(out.Categories, v1)
+					in.WantComma()
+				}
+				in.Delim(']')
+			}
 		default:
 			in.SkipRecursive()
 		}
@@ -310,6 +333,22 @@ func easyjson9e1087fdEncodeEventoolInternalPkgDomain3(out *jwriter.Writer, in Us
 		const prefix string = ",\"phonenumber\":"
 		out.RawString(prefix)
 		out.String(string(in.PhoneNumber))
+	}
+	{
+		const prefix string = ",\"categories\":"
+		out.RawString(prefix)
+		if in.Categories == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+			out.RawString("null")
+		} else {
+			out.RawByte('[')
+			for v2, v3 := range in.Categories {
+				if v2 > 0 {
+					out.RawByte(',')
+				}
+				out.String(string(v3))
+			}
+			out.RawByte(']')
+		}
 	}
 	out.RawByte('}')
 }

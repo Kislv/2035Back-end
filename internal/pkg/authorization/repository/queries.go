@@ -20,12 +20,15 @@ const (
 		($1, $2, $3, $4)
 	RETURNING id;
 	`
-
-	queryBindBasicPlaylists = `
+	
+	queryCreateUserCategory = `
 	INSERT INTO
-    	users_playlists (user_id, playlist_id)
+	users_categories (userId, category)
 	VALUES
-    	($1, $2),
-    	($1, $3);
-	`
+	(
+		$1,
+		$2
+	)
+	RETURNING userId, category;`
+
 )

@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS users              CASCADE;
 DROP TABLE IF EXISTS events             CASCADE;
 DROP TABLE IF EXISTS categories         CASCADE;
 DROP TABLE IF EXISTS events_categories  CASCADE;
+DROP TABLE IF EXISTS users_categories  CASCADE;
 
 CREATE TABLE users (
     id                                  BIGSERIAL NOT NULL PRIMARY KEY,
@@ -44,4 +45,10 @@ CREATE TABLE events_categories (
     eventId                            BIGINT REFERENCES events (id),
     category                            VARCHAR(100) REFERENCES categories (name),
     CONSTRAINT events_categories_id     PRIMARY KEY (eventId, category)
+);
+
+CREATE TABLE users_categories (
+    userId                              BIGINT REFERENCES users (id),
+    category                            VARCHAR(100) REFERENCES categories (name),
+    CONSTRAINT users_categories_id     PRIMARY KEY (userId, category)
 );

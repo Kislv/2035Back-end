@@ -3,7 +3,6 @@ package autusecase
 import (
 	"eventool/internal/pkg/authorization/delivery/grpc"
 	"eventool/internal/pkg/domain"
-	"eventool/internal/pkg/utils/log"
 
 	"context"
 
@@ -60,6 +59,7 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 		Imgsrc:         us.GetImgsrc(),
 		RepeatPassword: us.GetRepeatPassword(),
 		PhoneNumber:    us.GetPhoneNumber(),
+		Categories:     us.GetCategories(),
 	})
 	if err != nil {
 		return nil, err
@@ -75,6 +75,7 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 		Email:          out.Email,
 		Imgsrc:         out.Imgsrc,
 		RepeatPassword: out.RepeatPassword,
+		Categories:     out.Categories,
 	}, nil
 }
 
@@ -87,15 +88,7 @@ func (au authUsecase) Login(ctx context.Context, ub *grpc.UserBasic) (*grpc.User
 	if err != nil {
 		return nil, err
 	}
-	log.Info("usr.Email = " + usr.Email)
-	log.Info("usr.Imgsrc = " + usr.Imgsrc)
-	log.Info("usr.Password = " + usr.Password)
-	log.Info("usr.PhoneNumber = " + usr.PhoneNumber)
-	log.Info("ub.Password = " + ub.Password)
 	if err := bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(ub.Password)); err != nil {
-		log.Info("string([]byte(usr.Password)) = " + string([]byte(usr.Password)))
-		log.Info("string([]byte(ub.Password)) = " + string([]byte(ub.Password)))
-		log.Info("err = " + err.Error())
 		return nil, domain.Err.ErrObj.BadPassword
 	}
 

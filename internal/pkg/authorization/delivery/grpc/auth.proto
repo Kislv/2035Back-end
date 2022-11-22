@@ -16,7 +16,8 @@ message User {
   string password = 4;
   string imgsrc = 5;
   string repeatPassword = 6;
-  string PhoneNumber = 7;
+  string phoneNumber = 7;
+  repeated string categories = 8;
 }
 
 message UserBasic {

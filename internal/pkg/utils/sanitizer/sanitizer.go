@@ -12,6 +12,9 @@ func SanitizeUser(user *domain.User) {
 	user.Username = sanitizer.Sanitize(user.Username)
 	user.PhoneNumber = sanitizer.Sanitize(user.PhoneNumber)
 	user.Imgsrc = sanitizer.Sanitize(user.Imgsrc)
+	for i, _ := range(user.Categories){
+		user.Categories[i] = sanitizer.Sanitize(user.Categories[i])
+	}
 }
 
 func SanitizeUpdUser(user *domain.UpdUser) {

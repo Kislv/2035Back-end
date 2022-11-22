@@ -132,3 +132,15 @@ VALUES
         2,
         'business'
     );
+
+INSERT INTO
+    users_categories (userId, category)
+	VALUES
+	(
+        3,
+        'food'
+	),
+	(
+        3,
+        'business'
+	);

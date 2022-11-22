@@ -53,6 +53,7 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		PhoneNumber:    userForm.PhoneNumber,
 		Email:          userForm.Email,
 		Imgsrc:         userForm.Imgsrc,
+		Categories:     userForm.Categories,
 	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

@@ -21,7 +21,6 @@ func InitAutRep(manager *database.DBManager) domain.AuthRepository {
 
 func (ur *dbAuthRepository) GetByEmail(email string, isFound bool) (domain.User, error) {
 	resp, err := ur.dbm.Query(queryGetByEmail, email)
-	log.Info("email = " + email)
 	if len(resp) == 0 {
 		if (!isFound) {
 			return domain.User{}, nil
@@ -99,21 +98,14 @@ func (ur *dbAuthRepository) AddUser(us domain.User) (uint64, error) {
 	}
 	userId := cast.ToUint64(resp[0][0])
 
-	// resp, err = ur.dbm.Query(queryAddBasicPlaylists)
-	// if err != nil {
-	// 	log.Warn("{AddUser} in query: " + queryAddBasicPlaylists)
-	// 	log.Error(err)
-	// 	return 0, err
-	// }
-
-	// firstBasicPlaylistId := cast.ToUint64(resp[0][0])
-	// secondBasicPlaylistId := cast.ToUint64(resp[1][0])
-	// _, err = ur.dbm.Query(queryBindBasicPlaylists, userId, firstBasicPlaylistId, secondBasicPlaylistId)
-	// if err != nil {
-	// 	log.Warn("{AddUser} in query: " + queryBindBasicPlaylists)
-	// 	log.Error(err)
-	// 	return 0, err
-	// }
+	for i, _ := range(us.Categories) {
+		_, err = ur.dbm.Query(queryCreateUserCategory, userId, us.Categories[i])
+		if err != nil {
+			log.Warn("{queryCreateUserCategory} in query: " + queryCreateUserCategory)
+			log.Error(err)
+			return userId, err
+		}
+	}
 
 	return userId, nil
 }

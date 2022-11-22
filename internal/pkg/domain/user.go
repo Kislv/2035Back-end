@@ -4,13 +4,14 @@ package domain
 const BaseUserPicture = "/home/ubuntu/lolkek/static/avatars/profile.svg"
 
 type User struct {
-	Id             uint64 `json:"ID"`
-	Username       string `json:"username"`
-	Password       string `json:"password,omitempty"`
-	RepeatPassword string `json:"repeatpassword,omitempty"`
-	Email          string `json:"email"`
-	Imgsrc         string `json:"imgsrc"`
-	PhoneNumber    string `json:"phonenumber"`
+	Id             uint64   `json:"ID"`
+	Username       string   `json:"username"`
+	Password       string   `json:"password,omitempty"`
+	RepeatPassword string   `json:"repeatpassword,omitempty"`
+	Email          string   `json:"email"`
+	Imgsrc         string   `json:"imgsrc"`
+	PhoneNumber    string   `json:"phonenumber"`
+	Categories     []string `json:"categories"`
 }
 
 func (us *User) ClearPasswords() User {
