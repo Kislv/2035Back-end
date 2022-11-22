@@ -351,12 +351,8 @@ func easyjsonF642ad3eDecodeEventoolInternalPkgDomain2(in *jlexer.Lexer, out *Eve
 			continue
 		}
 		switch key {
-		case "posterpath":
-			out.PosterPath = string(in.String())
 		case "title":
 			out.Title = string(in.String())
-		case "rating":
-			out.Rating = string(in.String())
 		case "description":
 			out.Description = string(in.String())
 		case "userid":
@@ -365,14 +361,10 @@ func easyjsonF642ad3eDecodeEventoolInternalPkgDomain2(in *jlexer.Lexer, out *Eve
 			out.Longitude = string(in.String())
 		case "latitude":
 			out.Latitude = string(in.String())
-		case "currentmembersquantity":
-			out.CurrentMembersQuantity = uint32(in.Uint32())
 		case "maxmembersquantity":
 			out.MaxMembersQuantity = uint32(in.Uint32())
 		case "minmembersquantity":
 			out.MinMembersQuantity = uint32(in.Uint32())
-		case "creatingdate":
-			out.CreatingDate = string(in.String())
 		case "startdate":
 			out.StartDate = string(in.String())
 		case "enddate":
@@ -421,19 +413,9 @@ func easyjsonF642ad3eEncodeEventoolInternalPkgDomain2(out *jwriter.Writer, in Ev
 	first := true
 	_ = first
 	{
-		const prefix string = ",\"posterpath\":"
-		out.RawString(prefix[1:])
-		out.String(string(in.PosterPath))
-	}
-	{
 		const prefix string = ",\"title\":"
-		out.RawString(prefix)
+		out.RawString(prefix[1:])
 		out.String(string(in.Title))
-	}
-	{
-		const prefix string = ",\"rating\":"
-		out.RawString(prefix)
-		out.String(string(in.Rating))
 	}
 	{
 		const prefix string = ",\"description\":"
@@ -456,11 +438,6 @@ func easyjsonF642ad3eEncodeEventoolInternalPkgDomain2(out *jwriter.Writer, in Ev
 		out.String(string(in.Latitude))
 	}
 	{
-		const prefix string = ",\"currentmembersquantity\":"
-		out.RawString(prefix)
-		out.Uint32(uint32(in.CurrentMembersQuantity))
-	}
-	{
 		const prefix string = ",\"maxmembersquantity\":"
 		out.RawString(prefix)
 		out.Uint32(uint32(in.MaxMembersQuantity))
@@ -469,11 +446,6 @@ func easyjsonF642ad3eEncodeEventoolInternalPkgDomain2(out *jwriter.Writer, in Ev
 		const prefix string = ",\"minmembersquantity\":"
 		out.RawString(prefix)
 		out.Uint32(uint32(in.MinMembersQuantity))
-	}
-	{
-		const prefix string = ",\"creatingdate\":"
-		out.RawString(prefix)
-		out.String(string(in.CreatingDate))
 	}
 	{
 		const prefix string = ",\"startdate\":"

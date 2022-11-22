@@ -33,14 +33,11 @@ func SanitizeUserBasic(login *domain.UserBasic) {
 
 func SanitizeEventCreating(event *domain.EventCreatingRequest) {
 	sanitizer := bluemonday.UGCPolicy()
-	event.PosterPath = sanitizer.Sanitize(event.PosterPath)
 	event.Title = sanitizer.Sanitize(event.Title)
-	event.Rating = sanitizer.Sanitize(event.Rating)
 	event.Description = sanitizer.Sanitize(event.Description)
 	event.UserId = sanitizer.Sanitize(event.UserId)
 	event.Longitude = sanitizer.Sanitize(event.Longitude)
 	event.Latitude = sanitizer.Sanitize(event.Latitude)
-	event.CreatingDate = sanitizer.Sanitize(event.CreatingDate)
 	event.StartDate = sanitizer.Sanitize(event.StartDate)
 	event.EndDate = sanitizer.Sanitize(event.EndDate)
 	event.MinAge = sanitizer.Sanitize(event.MinAge)

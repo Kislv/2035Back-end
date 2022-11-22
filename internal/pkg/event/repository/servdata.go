@@ -5,6 +5,7 @@ import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/utils/cast"
 	"eventool/internal/pkg/utils/log"
+	"time"
 )
 
 type dbeventrepository struct {
@@ -18,11 +19,9 @@ func InitEventRep(manager *database.DBManager) domain.EventRepository {
 }
 
 func (er *dbeventrepository) CreateEvent(event domain.EventCreatingRequest) (domain.EventCreatingResponse, error) {
-	resp, err := er.dbm.Query(queryCreateEvent, event.PosterPath, event.Title,
-								event.Rating, event.VotesNum, event.Description,
-								event.UserId, event.Longitude, event.Latitude,
-								event.CurrentMembersQuantity, event.MaxMembersQuantity,
-								event.MinMembersQuantity, event.CreatingDate, event.StartDate,
+	resp, err := er.dbm.Query(queryCreateEvent, event.Title, event.Description,
+								event.UserId, event.Longitude, event.Latitude, event.MaxMembersQuantity,
+								event.MinMembersQuantity, time.Now().Format("2006.01.02 15:04:05"), event.StartDate,
 								event.EndDate, event.MinAge, event.MaxAge, event.Price)
 	if err != nil {
 		log.Warn("{CreateEvent} in query: " + queryCreateEvent)

@@ -8,7 +8,7 @@ const (
 	`
 	queryCreateEvent = `
 	INSERT INTO
-    events (poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price)
+    events (title, description, userId, longitude, latitude, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price)
 	VALUES
     (
 		$1,
@@ -23,11 +23,7 @@ const (
         $10,
         $11,
         $12,
-        $13,
-        $14,
-		$15,
-		$16,
-		$17
+        $13
     )
 	RETURNING id, poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price;
 	`
