@@ -417,7 +417,7 @@ func easyjsonF642ad3eEncodeEventoolInternalPkgDomain2(out *jwriter.Writer, in Ev
 		out.RawString(prefix[1:])
 		out.String(string(in.Title))
 	}
-	{
+	if in.Description != "" {
 		const prefix string = ",\"description\":"
 		out.RawString(prefix)
 		out.String(string(in.Description))
@@ -437,12 +437,12 @@ func easyjsonF642ad3eEncodeEventoolInternalPkgDomain2(out *jwriter.Writer, in Ev
 		out.RawString(prefix)
 		out.String(string(in.Latitude))
 	}
-	{
+	if in.MaxMembersQuantity != 0 {
 		const prefix string = ",\"maxmembersquantity\":"
 		out.RawString(prefix)
 		out.Uint32(uint32(in.MaxMembersQuantity))
 	}
-	{
+	if in.MinMembersQuantity != 0 {
 		const prefix string = ",\"minmembersquantity\":"
 		out.RawString(prefix)
 		out.Uint32(uint32(in.MinMembersQuantity))
@@ -452,22 +452,22 @@ func easyjsonF642ad3eEncodeEventoolInternalPkgDomain2(out *jwriter.Writer, in Ev
 		out.RawString(prefix)
 		out.String(string(in.StartDate))
 	}
-	{
+	if in.EndDate != "" {
 		const prefix string = ",\"enddate\":"
 		out.RawString(prefix)
 		out.String(string(in.EndDate))
 	}
-	{
+	if in.MinAge != "" {
 		const prefix string = ",\"minage\":"
 		out.RawString(prefix)
 		out.String(string(in.MinAge))
 	}
-	{
+	if in.MaxAge != "" {
 		const prefix string = ",\"maxage\":"
 		out.RawString(prefix)
 		out.String(string(in.MaxAge))
 	}
-	{
+	if in.Price != "" {
 		const prefix string = ",\"price\":"
 		out.RawString(prefix)
 		out.String(string(in.Price))

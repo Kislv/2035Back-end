@@ -26,6 +26,8 @@ func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request)
 	}
 
 	EventCreatingRequest := new(domain.EventCreatingRequest)
+	EventCreatingRequest.SetDefault()
+	
 	err = easyjson.Unmarshal(b, EventCreatingRequest)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)

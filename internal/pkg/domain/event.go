@@ -9,20 +9,31 @@ const (
 type EventCreatingRequest struct {
 	// TODO: define, what is required fields
 	Title                  string   `json:"title"`
-	Description            string   `json:"description"`
+	Description            string   `json:"description,omitempty"`
 	UserId                 string   `json:"userid"`
 	Longitude              string   `json:"longitude"`
 	Latitude               string   `json:"latitude"`
-	MaxMembersQuantity     uint32   `json:"maxmembersquantity"`
-	MinMembersQuantity     uint32   `json:"minmembersquantity"`
+	MaxMembersQuantity     uint32   `json:"maxmembersquantity,omitempty"`
+	MinMembersQuantity     uint32   `json:"minmembersquantity,omitempty"`
 	StartDate              string   `json:"startdate"`
-	EndDate                string   `json:"enddate"`
-	MinAge                 string   `json:"minage"`
-	MaxAge                 string   `json:"maxage"`
-	Price                  string   `json:"price"`
+	EndDate                string   `json:"enddate,omitempty"`
+	MinAge                 string   `json:"minage,omitempty"`
+	MaxAge                 string   `json:"maxage,omitempty"`
+	Price                  string   `json:"price,omitempty"`
 	Categories             []string `json:"categories"`
 }
 
+func (er *EventCreatingRequest) SetDefault() () {
+	er.Description = ""
+	er.MaxMembersQuantity = 0
+	er.MinMembersQuantity = 0
+	er.EndDate = "1970-01-01 00:00:00"
+	er.MaxAge = "0"
+	er.MinAge = "0"
+	er.Price = "0"
+
+	return
+}
 func (er EventCreatingRequest) IsValid() (isValid bool) {
 	if len(er.Title) > maxEventTitleLength {
 		return false
