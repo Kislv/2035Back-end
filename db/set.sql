@@ -10,6 +10,7 @@ CREATE TABLE users (
     password                            VARCHAR(200) NOT NULL,
     email                               VARCHAR(50) NOT NULL,
     phonenumber                         VARCHAR(20) NOT NULL,
+    age                                 BIGINT NOT NULL,
 -- // TODO write valid path
     imgsrc                              VARCHAR(50) DEFAULT '/static/avatars/profile.svg'
 );

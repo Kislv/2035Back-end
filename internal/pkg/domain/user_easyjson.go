@@ -262,6 +262,8 @@ func easyjson9e1087fdDecodeEventoolInternalPkgDomain3(in *jlexer.Lexer, out *Use
 			out.Imgsrc = string(in.String())
 		case "phonenumber":
 			out.PhoneNumber = string(in.String())
+		case "age":
+			out.Age = uint64(in.Uint64())
 		case "categories":
 			if in.IsNull() {
 				in.Skip()
@@ -333,6 +335,11 @@ func easyjson9e1087fdEncodeEventoolInternalPkgDomain3(out *jwriter.Writer, in Us
 		const prefix string = ",\"phonenumber\":"
 		out.RawString(prefix)
 		out.String(string(in.PhoneNumber))
+	}
+	{
+		const prefix string = ",\"age\":"
+		out.RawString(prefix)
+		out.Uint64(uint64(in.Age))
 	}
 	{
 		const prefix string = ",\"categories\":"

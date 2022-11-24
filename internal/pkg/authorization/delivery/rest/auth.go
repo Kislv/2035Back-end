@@ -14,15 +14,6 @@ import (
 	"github.com/mailru/easyjson"
 )
 
-type User struct {
-	Id             uint64 `json:"ID"`
-	Username       string `json:"username"`
-	Password       string `json:"password,omitempty"`
-	Email          string `json:"email"`
-	Imgsrc         string `json:"imgsrc"`
-	RepeatPassword string `json:"repeatpassword,omitempty"`
-}
-
 type AuthResp struct {
 	Status string `json:"status"`
 	Id     string `json:"ID,omitempty"`
@@ -50,9 +41,10 @@ func (handler *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 		Username:       userForm.Username,
 		Password:       userForm.Password,
 		RepeatPassword: userForm.RepeatPassword,
-		PhoneNumber:    userForm.PhoneNumber,
 		Email:          userForm.Email,
 		Imgsrc:         userForm.Imgsrc,
+		PhoneNumber:    userForm.PhoneNumber,
+		Age:         	userForm.Age,
 		Categories:     userForm.Categories,
 	})
 	if err != nil {

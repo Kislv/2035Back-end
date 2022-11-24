@@ -56,13 +56,16 @@ func (eu EventUsecase) GetEvent(categoriesName []string) (domain.EventListRespon
 	return feed, nil
 }
 
-func (eu EventUsecase) GetCertainEvent(eventId uint64) (domain.EventCreatingResponse, error) {
-	// event, err := handler.EventUsecase.CheckUserPermissionOnEvent(userId)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusBadRequest)
-	// 	return
-	// }
-	// check user permission
+func (eu EventUsecase) GetCertainEvent(eventId uint64, userId uint64) (domain.EventCreatingResponse, error) {
+
+	userAge, err :=  eu.eventRepo.GetUserAge(userId)
+	if err != nil {
+		return domain.EventCreatingResponse{}, err
+	}
+
+	if !isValidUser {
+		return domain.EventCreatingResponse{}, nil
+	}
 
 	event, err := eu.eventRepo.GetCertainEvent(eventId)
 	

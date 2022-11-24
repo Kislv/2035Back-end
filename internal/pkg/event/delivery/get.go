@@ -56,6 +56,7 @@ func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request)
 }
 
 func (handler *EventHandler) GetEvent(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 	categoryString := r.URL.Query().Get("category")
 	categories := strings.Split(categoryString, " ")
 
@@ -77,8 +78,12 @@ func (handler *EventHandler) GetEvent(w http.ResponseWriter, r *http.Request) {
 }
 
 func (handler *EventHandler) GetCertainEvent(w http.ResponseWriter, r *http.Request) {
-	// categoryString := r.URL.Query().Get("category")
-	// categories := strings.Split(categoryString, " ")
+	defer r.Body.Close()
+	if userId, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
+		return
+	}
+
 	params := mux.Vars(r)
 	eventId, err := strconv.ParseUint(params["id"], 10, 64)
 	if err != nil {
@@ -86,7 +91,7 @@ func (handler *EventHandler) GetCertainEvent(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	
-	event, err := handler.EventUsecase.GetCertainEvent(eventId)
+	event, err := handler.EventUsecase.GetCertainEvent(eventId, userId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -104,6 +109,7 @@ func (handler *EventHandler) GetCertainEvent(w http.ResponseWriter, r *http.Requ
 
 
 func (handler *EventHandler) GetCategory(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 	categoryList, err := handler.EventUsecase.GetCategory()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

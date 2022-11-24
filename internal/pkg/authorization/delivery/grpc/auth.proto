@@ -18,6 +18,7 @@ message User {
   string repeatPassword = 6;
   string phoneNumber = 7;
   repeated string categories = 8;
+  uint64 age = 9;
 }
 
 message UserBasic {

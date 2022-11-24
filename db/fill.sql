@@ -1,36 +1,41 @@
 INSERT INTO
-    users (username, password, email, phonenumber)
+    users (username, password, email, phonenumber, age)
 VALUES
     (
         'Ванька',
         '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'ivan@vk.ru',
-        '79167777777'
+        '79167777777',
+        '18'
     ),
     (
         'tmp1',
         '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp1@vk.ru',
-        '79167777777'
+        '79167777777',
+        '59'
 
     ),
     (
         'tmp2',
         '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp2@vk.ru',
-        '79167777777'
+        '79167777777',
+        '16'
     ),
     (
         'tmp3',
         '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp3@vk.ru',
-        '79167777777'
+        '79167777777',
+        '17'
     ),
     (
         'tmp4',
         '$2a$10$XFUgsxdBN.UiILtfITr/4urH1WIQWBMkqvLnAgfiYpZNguvySCBAq', -- 1234abcd
         'tmp4@vk.ru',
-        '79167777777'
+        '79167777777',
+        '20'
     );
 
 INSERT INTO

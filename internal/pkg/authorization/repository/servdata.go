@@ -90,7 +90,7 @@ func (ur *dbAuthRepository) AddUser(us domain.User) (uint64, error) {
 		return 0, domain.Err.ErrObj.InternalServer
 	}
 
-	resp, err := ur.dbm.Query(queryAddUser, us.Username, us.Email, passwordByte, us.PhoneNumber)
+	resp, err := ur.dbm.Query(queryAddUser, us.Username, us.Email, passwordByte, us.PhoneNumber, us.Age)
 	if err != nil {
 		log.Warn("{AddUser} in query: " + queryAddUser)
 		log.Error(err)

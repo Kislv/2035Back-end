@@ -15,9 +15,9 @@ const (
 
 	queryAddUser = `
 	INSERT INTO
-		users (username, email, password, phonenumber)
+		users (username, email, password, phonenumber, age)
 	VALUES
-		($1, $2, $3, $4)
+		($1, $2, $3, $4, $5)
 	RETURNING id;
 	`
 	

@@ -11,6 +11,7 @@ type User struct {
 	Email          string   `json:"email"`
 	Imgsrc         string   `json:"imgsrc"`
 	PhoneNumber    string   `json:"phonenumber"`
+	Age  		   uint64   `json:"age"`
 	Categories     []string `json:"categories"`
 }
 
@@ -42,12 +43,12 @@ type UserNotificationToken struct {
 
 type UserRepository interface {
 	GetById(id uint64) (User, error)
-	UpdateUser(id uint64, upd UpdUser) (User, error)
+	// UpdateUser(id uint64, upd UpdUser) (User, error)
 	UpdateAvatar(id uint64, url string) (User, error)
 }
 
 type UserUsecase interface {
 	GetBasicInfo(id uint64) (User, error)
-	UpdateUser(id uint64, upd UpdUser) (User, error)
+	// UpdateUser(id uint64, upd UpdUser) (User, error)
 	UpdateAvatar(id uint64, url string) (User, error)
 }
