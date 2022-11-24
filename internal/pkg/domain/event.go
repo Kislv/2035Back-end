@@ -85,7 +85,7 @@ type EventRepository interface {
 	GetEvent(categoriesName []string) (EventListResponse, error)  
 	GetCategory() (CategoryListResponse, error)
 	CreateEventCategory(eventId uint64, categories []string) ([]string, error)
-
+	GetCertainEvent(eventId uint64) (EventCreatingResponse, error)
 
 
 	// AddMovie(addMovieInfo MovieInPlaylist) error
@@ -100,6 +100,8 @@ type EventUsecase interface {
 	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
 	GetEvent(categoriesName []string) (EventListResponse, error) 
 	GetCategory() (CategoryListResponse, error)
+	GetCertainEvent(eventId uint64) (EventCreatingResponse, error)
+	
 	
 	
 	// AddMovie(addMovieInfo MovieInPlaylist) error

@@ -168,6 +168,50 @@ func (cr *dbeventrepository) GetEvent(categoriesName []string) (domain.EventList
 	return out, nil
 }
 
+func (cr *dbeventrepository) GetCertainEvent(eventId uint64) (domain.EventCreatingResponse, error){
+	var resp []database.DBbyterow 
+	var err error
+	query := queryGetCertainEvent
+	resp, err = cr.dbm.Query(query, eventId)
+
+	if err != nil {
+		log.Warn("{GetCertainEvent} in query: " + query)
+		log.Error(err)
+		return domain.EventCreatingResponse{}, domain.Err.ErrObj.InternalServer
+	}
+
+	if len(resp) == 0 {
+		log.Warn("{GetCertainEvent}")
+		log.Error(domain.Err.ErrObj.SmallDb)
+		return domain.EventCreatingResponse{}, domain.Err.ErrObj.SmallDb
+	}
+	
+	event := domain.EventCreatingResponse{
+		Id:     					cast.ToUint64(resp[0][0]),
+		PosterPath:    				cast.ToString(resp[0][1]),
+		Title:  					cast.ToString(resp[0][2]),
+		Rating:  					cast.FlToStr((cast.ToFloat64(resp[0][3]))),
+		VotesNum:  					cast.ToUint64(resp[0][4]),
+		Description:  				cast.ToString(resp[0][5]),
+		UserId:  					cast.ToString(resp[0][6]),
+		Longitude:  				cast.FlToStr((cast.ToFloat64(resp[0][7]))),
+		Latitude:  					cast.FlToStr((cast.ToFloat64(resp[0][8]))),
+		CurrentMembersQuantity:  	cast.ToUint64(resp[0][9]),
+		MaxMembersQuantity:  		cast.ToUint64(resp[0][10]),
+		MinMembersQuantity:  		cast.ToUint64(resp[0][11]),
+		CreatingDate:  				cast.ToString(resp[0][12]),
+		StartDate:  				cast.ToString(resp[0][13]),
+		EndDate:  					cast.ToString(resp[0][14]),
+		MinAge:  					cast.ToString(resp[0][15]),
+		MaxAge:  					cast.ToString(resp[0][16]),
+		Price:  					cast.ToString(resp[0][17]),
+	}
+
+	out := event
+
+	return out, nil
+}
+
 
 func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) {
 	var resp []database.DBbyterow 

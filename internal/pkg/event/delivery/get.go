@@ -4,12 +4,13 @@ import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/sessions"
 	"eventool/internal/pkg/utils/sanitizer"
+	"strconv"
 	"strings"
 
 	"io/ioutil"
 	"net/http"
 
-	// "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 
 	"github.com/mailru/easyjson"
 )
@@ -66,6 +67,32 @@ func (handler *EventHandler) GetEvent(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	out, err := easyjson.Marshal(eventList)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
+		return
+	}
+	
+	w.WriteHeader(http.StatusOK)
+	w.Write(out)
+}
+
+func (handler *EventHandler) GetCertainEvent(w http.ResponseWriter, r *http.Request) {
+	// categoryString := r.URL.Query().Get("category")
+	// categories := strings.Split(categoryString, " ")
+	params := mux.Vars(r)
+	eventId, err := strconv.ParseUint(params["id"], 10, 64)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		return
+	}
+	
+	event, err := handler.EventUsecase.GetCertainEvent(eventId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	
+	out, err := easyjson.Marshal(event)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
 		return

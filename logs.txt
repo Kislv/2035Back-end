@@ -1,5 +1,5 @@
-Tue, 22 Nov 2022 19:07:08 MSK INF database.go:60: Successful connection to postgres
-Tue, 22 Nov 2022 19:07:08 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
-Tue, 22 Nov 2022 19:07:08 MSK INF ruserver.go:66: Connecting to port 8080
-Tue, 22 Nov 2022 19:07:13 MSK ERR error="tx is closed"
-Tue, 22 Nov 2022 19:07:13 MSK INF [GET] 127.0.0.1:60098, /api/v1/event/get 1.811886ms
+Thu, 24 Nov 2022 03:55:43 MSK INF database.go:60: Successful connection to postgres
+Thu, 24 Nov 2022 03:55:43 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
+Thu, 24 Nov 2022 03:55:43 MSK INF ruserver.go:66: Connecting to port 8080
+Thu, 24 Nov 2022 03:55:49 MSK ERR error="tx is closed"
+Thu, 24 Nov 2022 03:55:49 MSK INF [GET] 127.0.0.1:50240, /api/v1/event/get/1 1.870128ms

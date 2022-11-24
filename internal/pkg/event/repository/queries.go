@@ -71,4 +71,10 @@ const (
 		$2
 	)
 	RETURNING eventId, category;`
+
+	queryGetCertainEvent = `
+	SELECT id, poster, title, rating, votesnum, description, userId, longitude, latitude, currentmembersquantity, maxmembersquantity, minmembersquantity, creatingdate, startdate, enddate, minage, maxage, price
+	FROM events
+	WHERE id = $1;
+	`
 )

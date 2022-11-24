@@ -56,6 +56,23 @@ func (eu EventUsecase) GetEvent(categoriesName []string) (domain.EventListRespon
 	return feed, nil
 }
 
+func (eu EventUsecase) GetCertainEvent(eventId uint64) (domain.EventCreatingResponse, error) {
+	// event, err := handler.EventUsecase.CheckUserPermissionOnEvent(userId)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusBadRequest)
+	// 	return
+	// }
+	// check user permission
+
+	event, err := eu.eventRepo.GetCertainEvent(eventId)
+	
+	if err != nil {
+		return domain.EventCreatingResponse{}, err
+	}
+
+	return event, nil
+}
+
 func (eu EventUsecase) GetCategory() (domain.CategoryListResponse, error) {
 
 	categoryList, err := eu.eventRepo.GetCategory()
