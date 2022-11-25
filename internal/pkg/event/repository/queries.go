@@ -77,4 +77,13 @@ const (
 	FROM events
 	WHERE id = $1;
 	`
+	querySignUpUserForEvent = `
+	INSERT INTO 
+	users_events (eventId, userId)
+	VALUES
+	(
+        $1,
+        $2
+	);
+	`
 )

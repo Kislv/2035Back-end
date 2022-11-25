@@ -35,9 +35,12 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 		Id:             cast.ToUint64(row[0]),
 		Username:       cast.ToString(row[1]),
 		Password:       "",
+		RepeatPassword: "",
 		Email:          cast.ToString(row[2]),
 		Imgsrc:         cast.ToString(row[3]),
-		RepeatPassword: "",
+		PhoneNumber:    cast.ToString(row[4]),
+		Age:            cast.ToUint64(row[5]),
+		
 	}
 
 	return out, nil

@@ -15,6 +15,19 @@ type User struct {
 	Categories     []string `json:"categories"`
 }
 
+type UserAllInfo struct {
+	Id             uint64   `json:"ID"`
+	Username       string   `json:"username"`
+	Password       string   `json:"password,omitempty"`
+	RepeatPassword string   `json:"repeatpassword,omitempty"`
+	Email          string   `json:"email"`
+	Imgsrc         string   `json:"imgsrc"`
+	PhoneNumber    string   `json:"phonenumber"`
+	Age  		   uint64   `json:"age"`
+	Categories     []string `json:"categories"`
+	EventIds       []uint64 `json:"events"`
+}
+
 func (us *User) ClearPasswords() User {
 	us.Password = ""
 	us.RepeatPassword = ""

@@ -244,3 +244,16 @@ func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) 
 
 	return out, nil
 }
+
+
+
+func (er *dbeventrepository) SignUpUserForEvent (eventId uint64, userId uint64) (error) {
+	_, err := er.dbm.Query(querySignUpUserForEvent, cast.IntToStr(eventId), cast.IntToStr(userId))
+	if err != nil {
+		log.Warn("{SignUpUserForEvent} in query: " + querySignUpUserForEvent)
+		log.Error(err)
+		return err
+	}
+
+	return nil
+}

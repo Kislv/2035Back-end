@@ -8,6 +8,11 @@ import (
 	autmcs "eventool/internal/pkg/authorization/delivery/grpc"
 	autdelivery "eventool/internal/pkg/authorization/delivery/rest"
 
+
+	usrdelivery "eventool/internal/pkg/user/delivery/rest"
+	usrrepository "eventool/internal/pkg/user/repository"
+	usrusecase "eventool/internal/pkg/user/usecase"
+
 	eventdelivery "eventool/internal/pkg/event/delivery"
 	eventrepository "eventool/internal/pkg/event/repository"
 	eventusecase "eventool/internal/pkg/event/usecase"
@@ -25,7 +30,7 @@ type Data struct {
 type Services struct {
 	// Act Data
 	// Mov Data
-	Usr Data
+	User Data
 	// Col Data
 	// Gen Data
 	// Ann Data
@@ -47,10 +52,13 @@ func setAutMcs() autmcs.AutherClient {
 }
 
 func SetHandlers(svs Services) {
+	userRep := usrrepository.InitUsrRep(svs.User.Db)
 	eventRep := eventrepository.InitEventRep(svs.Event.Db)
 
+	userUsc := usrusecase.InitUsrUsc(userRep)
 	eventUsc := eventusecase.InitEventUsc(eventRep)
 
+	usrdelivery.SetUsrHandlers(svs.User.Api, userUsc)
 	eventdelivery.SetEventHandlers(svs.Event.Api, eventUsc)
 
 	autdelivery.SetAutHandlers(svs.Aut.Api, setAutMcs())

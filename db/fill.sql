@@ -142,10 +142,38 @@ INSERT INTO
     users_categories (userId, category)
 	VALUES
 	(
-        3,
+        2,
         'food'
+	),
+	(
+        1,
+        'business'
+	),
+	(
+        2,
+        'business'
 	),
 	(
         3,
         'business'
+	),
+	(
+        4,
+        'business'
+	),
+	(
+        5,
+        'business'
+	);
+
+INSERT INTO
+    users_events (userId, eventId)
+	VALUES
+	(
+        1,
+        2
+	),
+	(
+        2,
+        1
 	);

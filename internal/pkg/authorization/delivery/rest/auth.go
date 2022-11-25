@@ -4,6 +4,7 @@ import (
 	"eventool/internal/pkg/authorization/delivery/grpc"
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/sessions"
+	"eventool/internal/pkg/utils/log"
 	"eventool/internal/pkg/utils/sanitizer"
 
 	"context"
@@ -93,6 +94,8 @@ func (handler *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest) // FIXME: wtf
+		log.Info("WRONG PASSWORD")
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 

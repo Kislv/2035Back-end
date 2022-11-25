@@ -43,7 +43,6 @@ func (er EventCreatingRequest) IsValid() (isValid bool) {
 }
 
 type EventCreatingResponse struct {
-	// TODO: define, what is required fields
 	Id                     uint64   `json:"id"`
 	PosterPath             string   `json:"posterpath"`
 	Title                  string   `json:"title"`
@@ -86,6 +85,7 @@ type EventRepository interface {
 	GetCategory() (CategoryListResponse, error)
 	CreateEventCategory(eventId uint64, categories []string) ([]string, error)
 	GetCertainEvent(eventId uint64) (EventCreatingResponse, error)
+	SignUpUserForEvent(eventId uint64, userId uint64) (error)
 	// GetUserAge (userId uint64) (, error)
 
 
@@ -101,7 +101,8 @@ type EventUsecase interface {
 	CreateEvent(event EventCreatingRequest) (EventCreatingResponse, error)
 	GetEvent(categoriesName []string) (EventListResponse, error) 
 	GetCategory() (CategoryListResponse, error)
-	GetCertainEvent(eventId uint64, userId uint64) (EventCreatingResponse, error)
+	GetCertainEvent(eventId uint64) (EventCreatingResponse, error)
+	EventSignUp(eventId uint64, userId uint64)(error)
 	
 	
 	

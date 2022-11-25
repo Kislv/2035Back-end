@@ -37,7 +37,7 @@ func RunServer() {
 	setter.SetHandlers(setter.Services{
 		// Act: setter.Data{Db: db, Api: api},
 		// Mov: setter.Data{Db: db, Api: api},
-		Usr: setter.Data{Db: db, Api: api},
+		User: setter.Data{Db: db, Api: api},
 		// Col: setter.Data{Db: db, Api: api},
 		// Gen: setter.Data{Db: db, Api: api},
 		// Ann: setter.Data{Db: db, Api: api},

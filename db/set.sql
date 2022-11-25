@@ -53,3 +53,9 @@ CREATE TABLE users_categories (
     category                            VARCHAR(100) REFERENCES categories (name),
     CONSTRAINT users_categories_id     PRIMARY KEY (userId, category)
 );
+
+CREATE TABLE users_events (
+    userId                             BIGINT REFERENCES users (id),
+    eventId                            BIGINT REFERENCES events (id),
+    CONSTRAINT users_events_id         PRIMARY KEY (userId, eventId)
+);

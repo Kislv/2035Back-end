@@ -3,6 +3,8 @@ package eventdelivery
 import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/sessions"
+	"eventool/internal/pkg/utils/cast"
+	"eventool/internal/pkg/utils/log"
 	"eventool/internal/pkg/utils/sanitizer"
 	"strconv"
 	"strings"
@@ -17,7 +19,8 @@ import (
 
 func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	if _, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
+	sessionId, err := sessions.CheckSession(r)
+	if err == domain.Err.ErrObj.UserNotLoggedIn {
 		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
@@ -25,6 +28,7 @@ func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request)
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -34,7 +38,13 @@ func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request)
 	err = easyjson.Unmarshal(b, EventCreatingRequest)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusInternalServerError)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
+	}
+
+	if cast.IntToStr(sessionId) != EventCreatingRequest.UserId {
+		http.Error(w, domain.Err.ErrObj.BadInput.Error(), http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
 	}
 
 	sanitizer.SanitizeEventCreating(EventCreatingRequest)
@@ -42,12 +52,14 @@ func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request)
 	es, err := handler.EventUsecase.CreateEvent(*EventCreatingRequest)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	out, err := easyjson.Marshal(es)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -79,10 +91,11 @@ func (handler *EventHandler) GetEvent(w http.ResponseWriter, r *http.Request) {
 
 func (handler *EventHandler) GetCertainEvent(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	if userId, err := sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
-		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
-		return
-	}
+	// userId, err := sessions.CheckSession(r);
+	// if err == domain.Err.ErrObj.UserNotLoggedIn {
+	// 	http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
+	// 	return
+	// }
 
 	params := mux.Vars(r)
 	eventId, err := strconv.ParseUint(params["id"], 10, 64)
@@ -91,7 +104,8 @@ func (handler *EventHandler) GetCertainEvent(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	
-	event, err := handler.EventUsecase.GetCertainEvent(eventId, userId)
+	// event, err := handler.EventUsecase.GetCertainEvent(eventId, userId)
+	event, err := handler.EventUsecase.GetCertainEvent(eventId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -124,4 +138,32 @@ func (handler *EventHandler) GetCategory(w http.ResponseWriter, r *http.Request)
 	
 	w.WriteHeader(http.StatusOK)
 	w.Write(out)
+}
+
+func (handler *EventHandler) EventSignUp (w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	log.Info("in EventSignUp !!!")
+	userId, err := sessions.CheckSession(r)
+	if err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	params := mux.Vars(r)
+	eventId, err := strconv.ParseUint(params["id"], 10, 64)
+	if err != nil {
+
+		err := handler.EventUsecase.EventSignUp(eventId, userId)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		} 
+
+		w.WriteHeader(http.StatusCreated)
+	}
 }
