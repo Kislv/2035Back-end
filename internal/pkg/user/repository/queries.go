@@ -13,5 +13,9 @@ const (
 	SET imgsrc = $2
 	WHERE id = $1;
 	`
-
+	queryGetCategory = `
+	SELECT category
+	FROM users_categories
+	WHERE userId = $1;
+	`
 )

@@ -58,10 +58,13 @@ type UserRepository interface {
 	GetById(id uint64) (User, error)
 	// UpdateUser(id uint64, upd UpdUser) (User, error)
 	UpdateAvatar(id uint64, url string) (User, error)
+	GetCategory(id uint64) ([]string, error)
+	
 }
 
 type UserUsecase interface {
 	GetBasicInfo(id uint64) (User, error)
 	// UpdateUser(id uint64, upd UpdUser) (User, error)
 	UpdateAvatar(id uint64, url string) (User, error)
+	GetUserInfo(id uint64) (User, error)
 }

@@ -1,38 +1,11 @@
-Sun, 04 Dec 2022 03:34:52 MSK INF database.go:60: Successful connection to postgres
-Sun, 04 Dec 2022 03:34:52 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
-Sun, 04 Dec 2022 03:34:58 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 05:30:10 MSK INF database.go:60: Successful connection to postgres
+Sun, 04 Dec 2022 05:30:10 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
+Sun, 04 Dec 2022 05:30:13 MSK ERR error="tx is closed"
 cting to port 8080
-Sun, 04 Dec 2022 03:34:58 MSK INF [POST] 127.0.0.1:55308, /api/v1/login 94.948725ms
-Sun, 04 Dec 2022 03:35:48 MSK INF get.go:145: in EventSignUp !!!
-Sun, 04 Dec 2022 03:35:48 MSK INF get.go:156: EventSignUp: after check session 
-Sun, 04 Dec 2022 03:35:48 MSK INF get.go:163: EventSignUp: after parse id  = 3
-Sun, 04 Dec 2022 03:35:48 MSK ERR error="tx is closed"
-Sun, 04 Dec 2022 03:35:48 MSK INF comm.go:113: EventSignUp usecase: after get certain event. Title = party3
-Sun, 04 Dec 2022 03:35:48 MSK INF comm.go:121: EventSignUp usecase: after isValidUser = true
-Sun, 04 Dec 2022 03:35:48 MSK INF servdata.go:251: {SignUpUserForEvent} eventid = 3userid2
-Sun, 04 Dec 2022 03:35:48 MSK WRN database.go:103: {Query} Error committing
-Sun, 04 Dec 2022 03:35:48 MSK ERR error="commit unexpectedly resulted in rollback"
-Sun, 04 Dec 2022 03:35:48 MSK ERR error="tx is closed"
-Sun, 04 Dec 2022 03:35:48 MSK WRN servdata.go:254: {SignUpUserForEvent} in query: 
-	INSERT INTO 
-	users_events (eventId, userId)
-	VALUES
-	(
-        $1,
-        $2
-	);
-	
-Sun, 04 Dec 2022 03:35:48 MSK ERR error="commit unexpectedly resulted in rollback"
-Sun, 04 Dec 2022 03:35:48 MSK INF comm.go:126: EventSignUp usecase: UserAlreadySignUpForThisEvent
-Sun, 04 Dec 2022 03:35:48 MSK INF [POST] 127.0.0.1:41056, /api/v1/event/signup/3 3.417436ms
-Sun, 04 Dec 2022 03:36:06 MSK INF get.go:145: in EventSignUp !!!
-Sun, 04 Dec 2022 03:36:06 MSK INF get.go:156: EventSignUp: after check session 
-Sun, 04 Dec 2022 03:36:06 MSK INF get.go:163: EventSignUp: after parse id  = 3
-Sun, 04 Dec 2022 03:36:06 MSK ERR error="tx is closed"
-Sun, 04 Dec 2022 03:36:06 MSK INF comm.go:113: EventSignUp usecase: after get certain event. Title = party3
-Sun, 04 Dec 2022 03:36:06 MSK INF comm.go:121: EventSignUp usecase: after isValidUser = true
-Sun, 04 Dec 2022 03:36:06 MSK INF servdata.go:251: {SignUpUserForEvent} eventid = 3userid2
-Sun, 04 Dec 2022 03:36:07 MSK ERR error="tx is closed"
-Sun, 04 Dec 2022 03:36:07 MSK INF [POST] 127.0.0.1:55162, /api/v1/event/signup/3 671.525878ms
-Sun, 04 Dec 2022 03:36:43 MSK ERR error="tx is closed"
-Sun, 04 Dec 2022 03:36:43 MSK INF [POST] 127.0.0.1:46414, /api/v1/event/signup/cancel/3 22.619135ms
+Sun, 04 Dec 2022 05:30:14 MSK INF [POST] 127.0.0.1:44076, /api/v1/login 94.381341ms
+Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:160: GetRecomendedEvent usecase: start
+Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:165: GetRecomendedEvent usecase: after declaration
+Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:31: GetUserInfo: start
+Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:21: GetBasicInfo id = 2
+Sun, 04 Dec 2022 05:30:28 MSK WRN panic.go:13: Recovered from panic with err: runtime error: invalid memory address or nil pointer dereference on /api/v1/event/get/recomended
+Sun, 04 Dec 2022 05:30:28 MSK INF [GET] 127.0.0.1:56842, /api/v1/event/get/recomended 1.31741ms

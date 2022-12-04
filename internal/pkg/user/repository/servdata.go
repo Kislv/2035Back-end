@@ -40,7 +40,6 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 		Imgsrc:         cast.ToString(row[3]),
 		PhoneNumber:    cast.ToString(row[4]),
 		Age:            cast.ToUint64(row[5]),
-		
 	}
 
 	return out, nil
@@ -58,4 +57,28 @@ func (ur *dbUserRepository) UpdateAvatar(clientId uint64, url string) (domain.Us
 	}
 
 	return updated, err
+}
+
+func (ur *dbUserRepository) GetCategory(id uint64) ([]string, error) {
+	query := queryGetCategory
+	resp, err := ur.dbm.Query(query, id)
+
+	if len(resp) == 0 {
+		log.Warn("{GetCategory}")
+		log.Error(domain.Err.ErrObj.NoCategory)
+		return nil, domain.Err.ErrObj.NoCategory
+	}
+	if err != nil {
+		log.Warn("{GetCategory} in query: " + query)
+		log.Error(err)
+		return nil, domain.Err.ErrObj.InternalServer
+	}
+
+
+	category := make([]string, 0)
+	for i := range resp {
+		category = append(category, cast.ToString(resp[i][0]))
+	}
+
+	return category, nil
 }

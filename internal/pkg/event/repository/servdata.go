@@ -206,7 +206,6 @@ func (cr *dbeventrepository) GetCertainEvent(eventId uint64) (domain.EventCreati
 		MaxAge:  					cast.ToString(resp[0][16]),
 		Price:  					cast.ToString(resp[0][17]),
 	}
-
 	out := event
 
 	return out, nil

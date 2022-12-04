@@ -105,6 +105,7 @@ type EventUsecase interface {
 	GetCertainEvent(eventId uint64) (EventCreatingResponse, error)
 	EventSignUp(eventId uint64, userId uint64)(error)
 	CancelEventSignUp(eventId uint64, userId uint64) (error) 
+	GetRecomendedEvent(userId uint64) (EventListResponse, error)
 	
 	
 	

@@ -14,6 +14,7 @@ type errObj struct {
 	FinishSession   error
 
 	NoUser         error
+	NoCategory     error
 	InternalServer error
 
 	InvalidEmail    error
@@ -62,6 +63,7 @@ var Err = err{
 		FinishSession:   errors.New("Passed through if on FinishSession"),
 
 		NoUser:         errors.New("No user found"),
+		NoCategory:     errors.New("No user categories found"),
 		InternalServer: errors.New("Internal server error"),
 
 		InvalidEmail:    errors.New("Invalid email"),

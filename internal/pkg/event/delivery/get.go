@@ -200,3 +200,27 @@ func (handler *EventHandler) CancelEventSignUp(w http.ResponseWriter, r *http.Re
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (handler *EventHandler) GetRecomendedEvent(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	userId, err := sessions.CheckSession(r);
+	if err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
+		return
+	}
+	
+	eventList, err := handler.EventUsecase.GetRecomendedEvent(userId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	
+	out, err := easyjson.Marshal(eventList)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.InternalServer.Error(), http.StatusInternalServerError)
+		return
+	}
+	
+	w.WriteHeader(http.StatusOK)
+	w.Write(out)
+}
