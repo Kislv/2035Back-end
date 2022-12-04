@@ -4,7 +4,6 @@ import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/sessions"
 	"eventool/internal/pkg/utils/cast"
-	"eventool/internal/pkg/utils/log"
 	"eventool/internal/pkg/utils/sanitizer"
 	"strconv"
 	"strings"
@@ -142,7 +141,6 @@ func (handler *EventHandler) GetCategory(w http.ResponseWriter, r *http.Request)
 
 func (handler *EventHandler) EventSignUp (w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	log.Info("in EventSignUp !!!")
 	userId, err := sessions.CheckSession(r)
 	if err == domain.Err.ErrObj.UserNotLoggedIn {
 		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusForbidden)
@@ -153,14 +151,12 @@ func (handler *EventHandler) EventSignUp (w http.ResponseWriter, r *http.Request
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	log.Info("EventSignUp: after check session ")
 	params := mux.Vars(r)
 	eventId, err := strconv.ParseUint(params["id"], 10, 64)
 	if err != nil {
 		http.Error(w, domain.Err.ErrObj.Uint64Cast.Error(), http.StatusBadRequest)
 		return
 	}
-	log.Info("EventSignUp: after parse id  = " + cast.IntToStr(eventId))
 	err = handler.EventUsecase.EventSignUp(eventId, userId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

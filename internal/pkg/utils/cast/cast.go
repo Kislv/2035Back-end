@@ -17,6 +17,10 @@ func IntToStr(src uint64) string {
 	return fmt.Sprint(src)
 }
 
+func Uint16ToStr(src uint16) string {
+	return fmt.Sprint(src)
+}
+
 func FlToStr(src float64) string {
 	return fmt.Sprintf("%.1f", src)
 }
@@ -34,6 +38,11 @@ func ToUint64(src []byte) uint64 {
 
 func ToUint32(src []byte) uint32 {
 	return binary.BigEndian.Uint32(src)
+}
+
+
+func ToUint16(src []byte) uint16 {
+	return binary.BigEndian.Uint16(src)
 }
 
 func ToFloat64(src []byte) float64 {

@@ -93,4 +93,16 @@ const (
 	users_events
 	WHERE eventid = $1 and userid = $2;
 	`
+
+	queryGetUserAge = `
+	SELECT age 
+	FROM users
+	WHERE id = $1;
+	`
+
+	queryGetEventAges = `
+	SELECT minage, maxage
+	FROM events
+	WHERE id = $1;
+	`
 )

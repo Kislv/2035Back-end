@@ -96,48 +96,38 @@ func (eu EventUsecase) GetCategory() (domain.CategoryListResponse, error) {
 
 func (eu EventUsecase) EventSignUp(eventId uint64, userId uint64) (error)  {
 
-	// log.Info("EventSignUp usecase: start")
-	// var UserHandler *usrdelivery.UserHandler
-	// userInfo, err := UserHandler.UserUsecase.GetBasicInfo(userId)
-	
-	
-	// if err != nil {
-	// 	log.Error(err)
-	// 	return err
-	// }
-	// log.Info("EventSignUp usecase: after get basic Info." + userInfo.Username)
-
-	event, err := eu.GetCertainEvent(eventId)
+	userAge, err := eu.eventRepo.GetUserAge(userId)
 	if err != nil {
 		return err
 	}
-	log.Info("EventSignUp usecase: after get certain event. Title = " + event.Title)
+	eventMinAge, eventMaxAge, err := eu.eventRepo.GetEventAges(eventId)
+	if err != nil {
+		return err
+	}
 
 
-	// isValidUser, err := eu.IsUserValidForEvent(event, userInfo)
-	// if (!isValidUser){
-	// 	return domain.Err.ErrObj.BadInput
-	// }
+	isValidUser, err := eu.IsUserValidForEvent(eventMinAge, eventMaxAge, userAge)
+	if err != nil {
+		return err
+	}
+	if (!isValidUser){
+		return domain.Err.ErrObj.BadInput
+	}
 
-	log.Info("EventSignUp usecase: after isValidUser = true")
 
 	err = eu.eventRepo.SignUpUserForEvent(eventId, userId)
-	
 	if err != nil {
-		log.Info("EventSignUp usecase: UserAlreadySignUpForThisEvent")
-
 		return domain.Err.ErrObj.UserAlreadySignUpForThisEvent
 	}
 
 	return nil
 }
 
-func (eu EventUsecase) IsUserValidForEvent(event domain.EventCreatingResponse, user domain.User) (bool, error)  {
-
-	if (cast.IntToStr(user.Age) < event.MinAge){
+func (eu EventUsecase) IsUserValidForEvent(minAge uint16, maxAge uint16, age uint64) (bool, error)  {
+	if (cast.IntToStr(age) < cast.Uint16ToStr(minAge)){
 		return false, nil
 	}
-	if (cast.IntToStr(user.Age) > event.MaxAge && event.MaxAge != "0"){
+	if (cast.IntToStr(age) > cast.Uint16ToStr(maxAge) && cast.Uint16ToStr(maxAge) != "0"){
 		return false, nil
 	}
 

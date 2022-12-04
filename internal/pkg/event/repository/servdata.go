@@ -3,9 +3,9 @@ package eventrepository
 import (
 	"eventool/internal/pkg/database"
 	"eventool/internal/pkg/domain"
+	usrrepository "eventool/internal/pkg/user/repository"
 	"eventool/internal/pkg/utils/cast"
 	"eventool/internal/pkg/utils/log"
-	usrrepository "eventool/internal/pkg/user/repository"
 	"strings"
 	"time"
 )
@@ -22,9 +22,9 @@ func InitEventRep(manager *database.DBManager) domain.EventRepository {
 
 func (er *dbeventrepository) CreateEvent(event domain.EventCreatingRequest) (domain.EventCreatingResponse, error) {
 	resp, err := er.dbm.Query(queryCreateEvent, event.Title, event.Description,
-								event.UserId, event.Longitude, event.Latitude, event.MaxMembersQuantity,
-								event.MinMembersQuantity, time.Now().Format("2006.01.02 15:04:05"), event.StartDate,
-								event.EndDate, event.MinAge, event.MaxAge, event.Price)
+		event.UserId, event.Longitude, event.Latitude, event.MaxMembersQuantity,
+		event.MinMembersQuantity, time.Now().Format("2006.01.02 15:04:05"), event.StartDate,
+		event.EndDate, event.MinAge, event.MaxAge, event.Price)
 	if err != nil {
 		log.Warn("{CreateEvent} in query: " + queryCreateEvent)
 		log.Error(err)
@@ -32,24 +32,24 @@ func (er *dbeventrepository) CreateEvent(event domain.EventCreatingRequest) (dom
 	}
 
 	return domain.EventCreatingResponse{
-		Id:     					cast.ToUint64(resp[0][0]),
-		PosterPath:    				cast.ToString(resp[0][1]),
-		Title:  					cast.ToString(resp[0][2]),
-		Rating:  					cast.ToString(resp[0][3]),
-		VotesNum:  					cast.ToUint64(resp[0][4]),
-		Description:  				cast.ToString(resp[0][5]),
-		UserId:  					cast.ToString(resp[0][6]),
-		Longitude:  				cast.ToString(resp[0][7]),
-		Latitude:  					cast.ToString(resp[0][8]),
-		CurrentMembersQuantity:  	cast.ToUint64(resp[0][9]),
-		MaxMembersQuantity:  		cast.ToUint64(resp[0][10]),
-		MinMembersQuantity:  		cast.ToUint64(resp[0][11]),
-		CreatingDate:  				cast.ToString(resp[0][12]),
-		StartDate:  				cast.ToString(resp[0][13]),
-		EndDate:  					cast.ToString(resp[0][14]),
-		MinAge:  					cast.ToString(resp[0][15]),
-		MaxAge:  					cast.ToString(resp[0][16]),
-		Price:  					cast.ToString(resp[0][17]),
+		Id:                     cast.ToUint64(resp[0][0]),
+		PosterPath:             cast.ToString(resp[0][1]),
+		Title:                  cast.ToString(resp[0][2]),
+		Rating:                 cast.ToString(resp[0][3]),
+		VotesNum:               cast.ToUint64(resp[0][4]),
+		Description:            cast.ToString(resp[0][5]),
+		UserId:                 cast.ToString(resp[0][6]),
+		Longitude:              cast.ToString(resp[0][7]),
+		Latitude:               cast.ToString(resp[0][8]),
+		CurrentMembersQuantity: cast.ToUint64(resp[0][9]),
+		MaxMembersQuantity:     cast.ToUint64(resp[0][10]),
+		MinMembersQuantity:     cast.ToUint64(resp[0][11]),
+		CreatingDate:           cast.ToString(resp[0][12]),
+		StartDate:              cast.ToString(resp[0][13]),
+		EndDate:                cast.ToString(resp[0][14]),
+		MinAge:                 cast.Uint16ToStr(cast.ToUint16(resp[0][15])),
+		MaxAge:                 cast.Uint16ToStr(cast.ToUint16(resp[0][16])),
+		Price:                  cast.ToString(resp[0][17]),
 	}, nil
 }
 
@@ -67,7 +67,7 @@ func (er *dbeventrepository) CreateEventCategory(eventId uint64, categories []st
 	// sb.WriteString(queryCreateEventCategoryFifthPart)
 	// var resp []database.DBbyterow
 	var err error
-	for i, _ := range(categories) {
+	for i, _ := range categories {
 		_, err = er.dbm.Query(queryCreateEventCategory, eventId, categories[i])
 		if err != nil {
 			log.Warn("{CreateEventCategory} in query: " + queryCreateEventCategory)
@@ -93,18 +93,17 @@ func (er *dbeventrepository) EventAlreadyExist(event domain.EventCreatingRequest
 	return false, nil
 }
 
-
 func (cr *dbeventrepository) GetEvent(categoriesName []string) (domain.EventListResponse, error) {
-	var resp []database.DBbyterow 
+	var resp []database.DBbyterow
 	var err error
 	query := ""
-	if categoriesName[0] != "all"{
+	if categoriesName[0] != "all" {
 		// query = queryGetEventListFirstPart
 		var sb strings.Builder
 		sb.WriteString(queryGetEventListFirstPart)
 		sb.WriteString("(")
-		for i, _ := range(categoriesName){
-			if i != len(categoriesName) - 1{
+		for i, _ := range categoriesName {
+			if i != len(categoriesName)-1 {
 				sb.WriteString("'")
 				sb.WriteString(categoriesName[i])
 				sb.WriteString("'")
@@ -137,28 +136,28 @@ func (cr *dbeventrepository) GetEvent(categoriesName []string) (domain.EventList
 		log.Error(domain.Err.ErrObj.SmallDb)
 		return domain.EventListResponse{}, domain.Err.ErrObj.SmallDb
 	}
-	
+
 	events := make([]domain.EventCreatingResponse, 0)
 	for i := range resp {
 		events = append(events, domain.EventCreatingResponse{
-			Id:     					cast.ToUint64(resp[i][0]),
-			PosterPath:    				cast.ToString(resp[i][1]),
-			Title:  					cast.ToString(resp[i][2]),
-			Rating:  					cast.FlToStr((cast.ToFloat64(resp[i][3]))),
-			VotesNum:  					cast.ToUint64(resp[i][4]),
-			Description:  				cast.ToString(resp[i][5]),
-			UserId:  					cast.ToString(resp[i][6]),
-			Longitude:  				cast.FlToStr((cast.ToFloat64(resp[i][7]))),
-			Latitude:  					cast.FlToStr((cast.ToFloat64(resp[i][8]))),
-			CurrentMembersQuantity:  	cast.ToUint64(resp[i][9]),
-			MaxMembersQuantity:  		cast.ToUint64(resp[i][10]),
-			MinMembersQuantity:  		cast.ToUint64(resp[i][11]),
-			CreatingDate:  				cast.ToString(resp[i][12]),
-			StartDate:  				cast.ToString(resp[i][13]),
-			EndDate:  					cast.ToString(resp[i][14]),
-			MinAge:  					cast.ToString(resp[i][15]),
-			MaxAge:  					cast.ToString(resp[i][16]),
-			Price:  					cast.ToString(resp[i][17]),
+			Id:                     cast.ToUint64(resp[i][0]),
+			PosterPath:             cast.ToString(resp[i][1]),
+			Title:                  cast.ToString(resp[i][2]),
+			Rating:                 cast.FlToStr((cast.ToFloat64(resp[i][3]))),
+			VotesNum:               cast.ToUint64(resp[i][4]),
+			Description:            cast.ToString(resp[i][5]),
+			UserId:                 cast.ToString(resp[i][6]),
+			Longitude:              cast.FlToStr((cast.ToFloat64(resp[i][7]))),
+			Latitude:               cast.FlToStr((cast.ToFloat64(resp[i][8]))),
+			CurrentMembersQuantity: cast.ToUint64(resp[i][9]),
+			MaxMembersQuantity:     cast.ToUint64(resp[i][10]),
+			MinMembersQuantity:     cast.ToUint64(resp[i][11]),
+			CreatingDate:           cast.ToString(resp[i][12]),
+			StartDate:              cast.ToString(resp[i][13]),
+			EndDate:                cast.ToString(resp[i][14]),
+			MinAge:                 cast.ToString(resp[i][15]),
+			MaxAge:                 cast.ToString(resp[i][16]),
+			Price:                  cast.ToString(resp[i][17]),
 		})
 	}
 
@@ -169,8 +168,8 @@ func (cr *dbeventrepository) GetEvent(categoriesName []string) (domain.EventList
 	return out, nil
 }
 
-func (cr *dbeventrepository) GetCertainEvent(eventId uint64) (domain.EventCreatingResponse, error){
-	var resp []database.DBbyterow 
+func (cr *dbeventrepository) GetCertainEvent(eventId uint64) (domain.EventCreatingResponse, error) {
+	var resp []database.DBbyterow
 	var err error
 	query := queryGetCertainEvent
 	resp, err = cr.dbm.Query(query, eventId)
@@ -186,26 +185,26 @@ func (cr *dbeventrepository) GetCertainEvent(eventId uint64) (domain.EventCreati
 		log.Error(domain.Err.ErrObj.SmallDb)
 		return domain.EventCreatingResponse{}, domain.Err.ErrObj.SmallDb
 	}
-	
+
 	event := domain.EventCreatingResponse{
-		Id:     					cast.ToUint64(resp[0][0]),
-		PosterPath:    				cast.ToString(resp[0][1]),
-		Title:  					cast.ToString(resp[0][2]),
-		Rating:  					cast.FlToStr((cast.ToFloat64(resp[0][3]))),
-		VotesNum:  					cast.ToUint64(resp[0][4]),
-		Description:  				cast.ToString(resp[0][5]),
-		UserId:  					cast.ToString(resp[0][6]),
-		Longitude:  				cast.FlToStr((cast.ToFloat64(resp[0][7]))),
-		Latitude:  					cast.FlToStr((cast.ToFloat64(resp[0][8]))),
-		CurrentMembersQuantity:  	cast.ToUint64(resp[0][9]),
-		MaxMembersQuantity:  		cast.ToUint64(resp[0][10]),
-		MinMembersQuantity:  		cast.ToUint64(resp[0][11]),
-		CreatingDate:  				cast.ToString(resp[0][12]),
-		StartDate:  				cast.ToString(resp[0][13]),
-		EndDate:  					cast.ToString(resp[0][14]),
-		MinAge:  					cast.ToString(resp[0][15]),
-		MaxAge:  					cast.ToString(resp[0][16]),
-		Price:  					cast.ToString(resp[0][17]),
+		Id:                     cast.ToUint64(resp[0][0]),
+		PosterPath:             cast.ToString(resp[0][1]),
+		Title:                  cast.ToString(resp[0][2]),
+		Rating:                 cast.FlToStr((cast.ToFloat64(resp[0][3]))),
+		VotesNum:               cast.ToUint64(resp[0][4]),
+		Description:            cast.ToString(resp[0][5]),
+		UserId:                 cast.ToString(resp[0][6]),
+		Longitude:              cast.FlToStr((cast.ToFloat64(resp[0][7]))),
+		Latitude:               cast.FlToStr((cast.ToFloat64(resp[0][8]))),
+		CurrentMembersQuantity: cast.ToUint64(resp[0][9]),
+		MaxMembersQuantity:     cast.ToUint64(resp[0][10]),
+		MinMembersQuantity:     cast.ToUint64(resp[0][11]),
+		CreatingDate:           cast.ToString(resp[0][12]),
+		StartDate:              cast.ToString(resp[0][13]),
+		EndDate:                cast.ToString(resp[0][14]),
+		MinAge:                 cast.ToString(resp[0][15]),
+		MaxAge:                 cast.ToString(resp[0][16]),
+		Price:                  cast.ToString(resp[0][17]),
 	}
 	out := event
 
@@ -213,7 +212,7 @@ func (cr *dbeventrepository) GetCertainEvent(eventId uint64) (domain.EventCreati
 }
 
 func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) {
-	var resp []database.DBbyterow 
+	var resp []database.DBbyterow
 	var err error
 	resp, err = cr.dbm.Query(queryGetCategoryList)
 
@@ -228,12 +227,12 @@ func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) 
 		log.Error(domain.Err.ErrObj.SmallDb)
 		return domain.CategoryListResponse{}, domain.Err.ErrObj.SmallDb
 	}
-	
+
 	categoryList := make([]domain.CategoryResponse, 0)
 	for i := range resp {
 		categoryList = append(categoryList, domain.CategoryResponse{
-			Name:    				cast.ToString(resp[i][0]),
-			ImagePath:    			cast.ToString(resp[i][1]),
+			Name:      cast.ToString(resp[i][0]),
+			ImagePath: cast.ToString(resp[i][1]),
 		})
 	}
 
@@ -244,10 +243,7 @@ func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) 
 	return out, nil
 }
 
-
-
-func (er *dbeventrepository) SignUpUserForEvent (eventId uint64, userId uint64) (error) {
-	log.Info("{SignUpUserForEvent} eventid = " + cast.IntToStr(eventId) + "userid" + cast.IntToStr(userId))
+func (er *dbeventrepository) SignUpUserForEvent(eventId uint64, userId uint64) error {
 	_, err := er.dbm.Query(querySignUpUserForEvent, cast.IntToStr(eventId), cast.IntToStr(userId))
 	if err != nil {
 		log.Warn("{SignUpUserForEvent} in query: " + querySignUpUserForEvent)
@@ -258,7 +254,7 @@ func (er *dbeventrepository) SignUpUserForEvent (eventId uint64, userId uint64) 
 	return nil
 }
 
-func (er *dbeventrepository) CancelEventSignUp (eventId uint64, userId uint64) (error) {
+func (er *dbeventrepository) CancelEventSignUp(eventId uint64, userId uint64) error {
 	query := queryCancelSignUpUserForEvent
 	_, err := er.dbm.Query(query, cast.IntToStr(eventId), cast.IntToStr(userId))
 	if err != nil {
@@ -285,11 +281,53 @@ func (ur *dbeventrepository) GetUserCategory(id uint64) ([]string, error) {
 		return nil, domain.Err.ErrObj.InternalServer
 	}
 
-
 	category := make([]string, 0)
 	for i := range resp {
 		category = append(category, cast.ToString(resp[i][0]))
 	}
 
 	return category, nil
+}
+
+func (ur *dbeventrepository) GetUserAge(id uint64) (uint64, error) {
+	query := queryGetUserAge
+	resp, err := ur.dbm.Query(query, id)
+
+	if len(resp) == 0 {
+		log.Warn("{GetCategory}")
+		er := domain.Err.ErrObj.NoUser
+		log.Error(er)
+		return 0, er
+	}
+	if err != nil {
+		log.Warn("{GetCategory} in query: " + query)
+		log.Error(err)
+		return 0, domain.Err.ErrObj.InternalServer
+	}
+
+	age := cast.ToUint64(resp[0][0])
+
+	return age, nil
+}
+
+func (ur *dbeventrepository) GetEventAges(id uint64) (uint16, uint16, error) {
+	query := queryGetEventAges
+	resp, err := ur.dbm.Query(query, id)
+
+	if len(resp) == 0 {
+		log.Warn("{GetEventAges}")
+		er := domain.Err.ErrObj.NoUser
+		log.Error(er)
+		return 0, 0, er
+	}
+	if err != nil {
+		log.Warn("{GetEventAges} in query: " + query)
+		log.Error(err)
+		return 0, 0, domain.Err.ErrObj.InternalServer
+	}
+
+	minAge := cast.ToUint16(resp[0][0])
+	maxAge := cast.ToUint16(resp[0][1])
+
+	return minAge, maxAge, nil
 }

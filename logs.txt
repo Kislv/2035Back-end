@@ -1,11 +1,21 @@
-Sun, 04 Dec 2022 16:49:38 MSK INF database.go:60: Successful connection to postgres
-Sun, 04 Dec 2022 16:49:38 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
-Sun, 04 Dec 2022 16:49:46 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 18:57:47 MSK INF database.go:60: Successful connection to postgres
+Sun, 04 Dec 2022 18:57:47 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
+Sun, 04 Dec 2022 18:57:52 MSK ERR error="tx is closed"
 cting to port 8080
-Sun, 04 Dec 2022 16:49:47 MSK INF [POST] 127.0.0.1:46650, /api/v1/login 93.453577ms
-Sun, 04 Dec 2022 16:50:11 MSK INF comm.go:160: GetRecomendedEvent usecase: start
-Sun, 04 Dec 2022 16:50:11 MSK INF comm.go:165: GetRecomendedEvent usecase: after declaration
-Sun, 04 Dec 2022 16:50:11 MSK ERR error="tx is closed"
-Sun, 04 Dec 2022 16:50:11 MSK INF comm.go:176: GetRecomendedEvent usecase: after Get User categories
-Sun, 04 Dec 2022 16:50:14 MSK ERR error="tx is closed"
-Sun, 04 Dec 2022 16:50:14 MSK INF [GET] 127.0.0.1:37674, /api/v1/event/get/recomended 3.739095778s
+Sun, 04 Dec 2022 18:57:52 MSK INF [POST] 127.0.0.1:39868, /api/v1/login 95.687315ms
+Sun, 04 Dec 2022 18:58:38 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 18:58:38 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 18:58:38 MSK WRN database.go:103: {Query} Error committing
+Sun, 04 Dec 2022 18:58:38 MSK ERR error="commit unexpectedly resulted in rollback"
+Sun, 04 Dec 2022 18:58:38 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 18:58:38 MSK WRN servdata.go:249: {SignUpUserForEvent} in query: 
+	INSERT INTO 
+	users_events (eventId, userId)
+	VALUES
+	(
+        $1,
+        $2
+	);
+	
+Sun, 04 Dec 2022 18:58:38 MSK ERR error="commit unexpectedly resulted in rollback"
+Sun, 04 Dec 2022 18:58:38 MSK INF [POST] 127.0.0.1:43646, /api/v1/event/signup/3 15.140698ms

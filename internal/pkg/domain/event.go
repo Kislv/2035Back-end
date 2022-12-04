@@ -88,6 +88,8 @@ type EventRepository interface {
 	SignUpUserForEvent(eventId uint64, userId uint64) (error)
 	CancelEventSignUp(eventId uint64, userId uint64) (error) 
 	GetUserCategory(id uint64) ([]string, error)
+	GetUserAge(id uint64) (uint64, error)
+	GetEventAges(id uint64) (uint16, uint16, error)
 	// GetUserAge (userId uint64) (, error)
 
 

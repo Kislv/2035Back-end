@@ -27,7 +27,7 @@ func UploadFile(reader io.Reader, root, path, ext string) (string, error) {
 		return "", err
 	}
 	filename := randString + ext
-	log.Info("Created file with name " + filename)
+	log.Info("Created fie with name " + filename)
 	file, err := createFile(root, path, filename)
 	if err != nil {
 		return "", fmt.Errorf("file creating error: %s", err)
