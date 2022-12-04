@@ -18,6 +18,7 @@ func InitUsrRep(manager *database.DBManager) domain.UserRepository {
 }
 
 func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
+	log.Info("GetById start")
 	resp, err := ur.dbm.Query(queryGetById, id)
 	if len(resp) == 0 {
 		log.Warn("{GetById}")
@@ -29,7 +30,8 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 		log.Error(err)
 		return domain.User{}, domain.Err.ErrObj.InternalServer
 	}
-
+	log.Info("GetById before fill response")
+	
 	row := resp[0]
 	out := domain.User{
 		Id:             cast.ToUint64(row[0]),
@@ -41,6 +43,7 @@ func (ur *dbUserRepository) GetById(id uint64) (domain.User, error) {
 		PhoneNumber:    cast.ToString(row[4]),
 		Age:            cast.ToUint64(row[5]),
 	}
+	log.Info("GetById before return")
 
 	return out, nil
 }
@@ -60,7 +63,7 @@ func (ur *dbUserRepository) UpdateAvatar(clientId uint64, url string) (domain.Us
 }
 
 func (ur *dbUserRepository) GetCategory(id uint64) ([]string, error) {
-	query := queryGetCategory
+	query := QueryGetCategory
 	resp, err := ur.dbm.Query(query, id)
 
 	if len(resp) == 0 {

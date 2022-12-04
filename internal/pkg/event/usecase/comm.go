@@ -7,7 +7,7 @@ import (
 
 	// usrusecase "eventool/internal/pkg/user/usecase"
 	// usrdelivery "eventool/internal/pkg/user/delivery/rest"
-	usrusecase "eventool/internal/pkg/user/usecase"
+	// usrusecase "eventool/internal/pkg/user/usecase"
 	// "usrdelivery"
 	"strings"
 )
@@ -167,17 +167,20 @@ func (eu EventUsecase) GetRecomendedEvent(userId uint64) (domain.EventListRespon
 	// userInfo, err := usrdelivery.UserHandler
 	// var handler *usrdelivery.UserHandler
 	// userInfo, err := handler.UserUsecase.GetUserInfo(userId)
-	us := new(usrusecase.UserUsecase)
-	userInfo, err := usrusecase.UserUsecase.GetUserInfo(*us, userId)
-	log.Info("GetRecomendedEvent usecase: after Get User Info")
+
+
+	// us := new(usrusecase.UserUsecase)
+	// userInfo, err := usrusecase.UserUsecase.GetUserInfo(*us, userId)
+
+	categories, err := eu.eventRepo.GetUserCategory(userId)
+	log.Info("GetRecomendedEvent usecase: after Get User categories")
 	
 	if err != nil {
 		log.Error(err)
 		return domain.EventListResponse{}, err
 	}
-	log.Info("GetRecomendedEvent usecase: after get basic Info." + userInfo.Username)
 	
-	eventList, err := eu.GetEvent(userInfo.Categories)
+	eventList, err := eu.GetEvent(categories)
 	
 	if err != nil {
 		return domain.EventListResponse{}, err

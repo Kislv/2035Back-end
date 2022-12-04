@@ -131,7 +131,7 @@ VALUES
     ),
     (
         2,
-        'sport'
+        'food'
     ),
     (
         2,

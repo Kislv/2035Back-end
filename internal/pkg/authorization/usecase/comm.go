@@ -75,6 +75,7 @@ func (au authUsecase) Register(ctx context.Context, us *grpc.User) (*grpc.User, 
 		Email:          out.Email,
 		Imgsrc:         out.Imgsrc,
 		RepeatPassword: out.RepeatPassword,
+		PhoneNumber:    out.PhoneNumber,
 		Categories:     out.Categories,
 	}, nil
 }

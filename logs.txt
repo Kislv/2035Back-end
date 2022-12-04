@@ -1,11 +1,11 @@
-Sun, 04 Dec 2022 05:30:10 MSK INF database.go:60: Successful connection to postgres
-Sun, 04 Dec 2022 05:30:10 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
-Sun, 04 Dec 2022 05:30:13 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 16:49:38 MSK INF database.go:60: Successful connection to postgres
+Sun, 04 Dec 2022 16:49:38 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
+Sun, 04 Dec 2022 16:49:46 MSK ERR error="tx is closed"
 cting to port 8080
-Sun, 04 Dec 2022 05:30:14 MSK INF [POST] 127.0.0.1:44076, /api/v1/login 94.381341ms
-Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:160: GetRecomendedEvent usecase: start
-Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:165: GetRecomendedEvent usecase: after declaration
-Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:31: GetUserInfo: start
-Sun, 04 Dec 2022 05:30:28 MSK INF comm.go:21: GetBasicInfo id = 2
-Sun, 04 Dec 2022 05:30:28 MSK WRN panic.go:13: Recovered from panic with err: runtime error: invalid memory address or nil pointer dereference on /api/v1/event/get/recomended
-Sun, 04 Dec 2022 05:30:28 MSK INF [GET] 127.0.0.1:56842, /api/v1/event/get/recomended 1.31741ms
+Sun, 04 Dec 2022 16:49:47 MSK INF [POST] 127.0.0.1:46650, /api/v1/login 93.453577ms
+Sun, 04 Dec 2022 16:50:11 MSK INF comm.go:160: GetRecomendedEvent usecase: start
+Sun, 04 Dec 2022 16:50:11 MSK INF comm.go:165: GetRecomendedEvent usecase: after declaration
+Sun, 04 Dec 2022 16:50:11 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 16:50:11 MSK INF comm.go:176: GetRecomendedEvent usecase: after Get User categories
+Sun, 04 Dec 2022 16:50:14 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 16:50:14 MSK INF [GET] 127.0.0.1:37674, /api/v1/event/get/recomended 3.739095778s

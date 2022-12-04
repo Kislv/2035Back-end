@@ -76,6 +76,7 @@ func (ur *dbAuthRepository) GetById(id uint64) (domain.User, error) {
 		Password:       "",
 		Email:          cast.ToString(row[2]),
 		Imgsrc:         cast.ToString(row[3]),
+		PhoneNumber:    cast.ToString(row[4]),
 		RepeatPassword: "",
 	}
 

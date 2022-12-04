@@ -5,6 +5,7 @@ import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/utils/cast"
 	"eventool/internal/pkg/utils/log"
+	usrrepository "eventool/internal/pkg/user/repository"
 	"strings"
 	"time"
 )
@@ -211,7 +212,6 @@ func (cr *dbeventrepository) GetCertainEvent(eventId uint64) (domain.EventCreati
 	return out, nil
 }
 
-
 func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) {
 	var resp []database.DBbyterow 
 	var err error
@@ -268,4 +268,28 @@ func (er *dbeventrepository) CancelEventSignUp (eventId uint64, userId uint64) (
 	}
 
 	return nil
+}
+
+func (ur *dbeventrepository) GetUserCategory(id uint64) ([]string, error) {
+	query := usrrepository.QueryGetCategory
+	resp, err := ur.dbm.Query(query, id)
+
+	if len(resp) == 0 {
+		log.Warn("{GetCategory}")
+		log.Error(domain.Err.ErrObj.NoCategory)
+		return nil, domain.Err.ErrObj.NoCategory
+	}
+	if err != nil {
+		log.Warn("{GetCategory} in query: " + query)
+		log.Error(err)
+		return nil, domain.Err.ErrObj.InternalServer
+	}
+
+
+	category := make([]string, 0)
+	for i := range resp {
+		category = append(category, cast.ToString(resp[i][0]))
+	}
+
+	return category, nil
 }

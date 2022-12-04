@@ -8,7 +8,7 @@ const (
 	`
 
 	queryGetById = `
-	SELECT id, username, email, imgsrc
+	SELECT id, username, email, imgsrc, phonenumber
 	FROM users
 	WHERE id = $1;
 	`

@@ -19,6 +19,7 @@ func InitUsrUsc(u domain.UserRepository) domain.UserUsecase {
 
 func (uc UserUsecase) GetBasicInfo(id uint64) (domain.User, error) {
 	log.Info("GetBasicInfo id = " + cast.IntToStr(id))
+	// us, err := uc.userRepo.GetById(id)
 	us, err := uc.userRepo.GetById(id)
 	if err != nil {
 		return domain.User{}, domain.Err.ErrObj.InternalServer
