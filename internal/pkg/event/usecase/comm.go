@@ -3,8 +3,10 @@ package plausecase
 import (
 	"eventool/internal/pkg/domain"
 	"eventool/internal/pkg/utils/cast"
+	"eventool/internal/pkg/utils/log"
+
 	// usrusecase "eventool/internal/pkg/user/usecase"
-	usrdelivery "eventool/internal/pkg/user/delivery/rest"
+	// usrdelivery "eventool/internal/pkg/user/delivery/rest"
 	// "usrdelivery"
 	"strings"
 )
@@ -93,27 +95,36 @@ func (eu EventUsecase) GetCategory() (domain.CategoryListResponse, error) {
 
 func (eu EventUsecase) EventSignUp(eventId uint64, userId uint64) (error)  {
 
-	// userInfo, err := domain.UserUsecase.GetBasicInfo(userId)
-	var UserHandler usrdelivery.UserHandler
-	userInfo, err := UserHandler.UserUsecase.GetBasicInfo(userId)
+	// log.Info("EventSignUp usecase: start")
+	// var UserHandler *usrdelivery.UserHandler
+	// userInfo, err := UserHandler.UserUsecase.GetBasicInfo(userId)
 	
-	if err != nil {
-		return err
-	}
+	
+	// if err != nil {
+	// 	log.Error(err)
+	// 	return err
+	// }
+	// log.Info("EventSignUp usecase: after get basic Info." + userInfo.Username)
 
 	event, err := eu.GetCertainEvent(eventId)
 	if err != nil {
 		return err
 	}
+	log.Info("EventSignUp usecase: after get certain event. Title = " + event.Title)
 
-	isValidUser, err := eu.IsUserValidForEvent(event, userInfo)
-	if (!isValidUser){
-		return domain.Err.ErrObj.BadInput
-	}
+
+	// isValidUser, err := eu.IsUserValidForEvent(event, userInfo)
+	// if (!isValidUser){
+	// 	return domain.Err.ErrObj.BadInput
+	// }
+
+	log.Info("EventSignUp usecase: after isValidUser = true")
 
 	err = eu.eventRepo.SignUpUserForEvent(eventId, userId)
 	
 	if err != nil {
+		log.Info("EventSignUp usecase: UserAlreadySignUpForThisEvent")
+
 		return domain.Err.ErrObj.UserAlreadySignUpForThisEvent
 	}
 
@@ -130,4 +141,15 @@ func (eu EventUsecase) IsUserValidForEvent(event domain.EventCreatingResponse, u
 	}
 
 	return true, nil
+}
+
+func (eu EventUsecase) CancelEventSignUp(eventId uint64, userId uint64) (error)  {
+
+	err := eu.eventRepo.CancelEventSignUp(eventId, userId)
+	
+	if err != nil {
+		return domain.Err.ErrObj.UserDontSignUpForThisEvent
+	}
+
+	return nil
 }

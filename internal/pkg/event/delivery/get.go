@@ -21,7 +21,7 @@ func (handler *EventHandler) CreateEvent(w http.ResponseWriter, r *http.Request)
 	defer r.Body.Close()
 	sessionId, err := sessions.CheckSession(r)
 	if err == domain.Err.ErrObj.UserNotLoggedIn {
-		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusForbidden)
 		return
 	}
 
@@ -145,6 +145,36 @@ func (handler *EventHandler) EventSignUp (w http.ResponseWriter, r *http.Request
 	log.Info("in EventSignUp !!!")
 	userId, err := sessions.CheckSession(r)
 	if err == domain.Err.ErrObj.UserNotLoggedIn {
+		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusForbidden)
+		return
+	}
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	log.Info("EventSignUp: after check session ")
+	params := mux.Vars(r)
+	eventId, err := strconv.ParseUint(params["id"], 10, 64)
+	if err != nil {
+		http.Error(w, domain.Err.ErrObj.Uint64Cast.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Info("EventSignUp: after parse id  = " + cast.IntToStr(eventId))
+	err = handler.EventUsecase.EventSignUp(eventId, userId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	} 
+
+	w.WriteHeader(http.StatusCreated)
+}
+
+func (handler *EventHandler) CancelEventSignUp(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var err error
+	var userId uint64
+	if userId, err = sessions.CheckSession(r); err == domain.Err.ErrObj.UserNotLoggedIn {
 		http.Error(w, domain.Err.ErrObj.UserNotLoggedIn.Error(), http.StatusBadRequest)
 		return
 	}
@@ -157,13 +187,16 @@ func (handler *EventHandler) EventSignUp (w http.ResponseWriter, r *http.Request
 	params := mux.Vars(r)
 	eventId, err := strconv.ParseUint(params["id"], 10, 64)
 	if err != nil {
-
-		err := handler.EventUsecase.EventSignUp(eventId, userId)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		} 
-
-		w.WriteHeader(http.StatusCreated)
+		http.Error(w, domain.Err.ErrObj.Uint64Cast.Error(), http.StatusBadRequest)
+		return
 	}
+
+	err = handler.EventUsecase.CancelEventSignUp(eventId, userId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	} 
+
+
+	w.WriteHeader(http.StatusOK)
 }

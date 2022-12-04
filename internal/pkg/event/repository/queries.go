@@ -77,6 +77,7 @@ const (
 	FROM events
 	WHERE id = $1;
 	`
+
 	querySignUpUserForEvent = `
 	INSERT INTO 
 	users_events (eventId, userId)
@@ -85,5 +86,11 @@ const (
         $1,
         $2
 	);
+	`
+
+	queryCancelSignUpUserForEvent = `
+	DELETE FROM 
+	users_events
+	WHERE eventid = $1 and userid = $2;
 	`
 )

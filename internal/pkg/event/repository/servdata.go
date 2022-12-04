@@ -248,9 +248,22 @@ func (cr *dbeventrepository) GetCategory() (domain.CategoryListResponse, error) 
 
 
 func (er *dbeventrepository) SignUpUserForEvent (eventId uint64, userId uint64) (error) {
+	log.Info("{SignUpUserForEvent} eventid = " + cast.IntToStr(eventId) + "userid" + cast.IntToStr(userId))
 	_, err := er.dbm.Query(querySignUpUserForEvent, cast.IntToStr(eventId), cast.IntToStr(userId))
 	if err != nil {
 		log.Warn("{SignUpUserForEvent} in query: " + querySignUpUserForEvent)
+		log.Error(err)
+		return err
+	}
+
+	return nil
+}
+
+func (er *dbeventrepository) CancelEventSignUp (eventId uint64, userId uint64) (error) {
+	query := queryCancelSignUpUserForEvent
+	_, err := er.dbm.Query(query, cast.IntToStr(eventId), cast.IntToStr(userId))
+	if err != nil {
+		log.Warn("{CancelEventSignUp} in query: " + query)
 		log.Error(err)
 		return err
 	}

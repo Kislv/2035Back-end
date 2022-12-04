@@ -86,6 +86,7 @@ type EventRepository interface {
 	CreateEventCategory(eventId uint64, categories []string) ([]string, error)
 	GetCertainEvent(eventId uint64) (EventCreatingResponse, error)
 	SignUpUserForEvent(eventId uint64, userId uint64) (error)
+	CancelEventSignUp(eventId uint64, userId uint64) (error) 
 	// GetUserAge (userId uint64) (, error)
 
 
@@ -103,6 +104,7 @@ type EventUsecase interface {
 	GetCategory() (CategoryListResponse, error)
 	GetCertainEvent(eventId uint64) (EventCreatingResponse, error)
 	EventSignUp(eventId uint64, userId uint64)(error)
+	CancelEventSignUp(eventId uint64, userId uint64) (error) 
 	
 	
 	

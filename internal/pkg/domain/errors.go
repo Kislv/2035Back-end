@@ -30,6 +30,7 @@ type errObj struct {
 	AlreadyIn   error
 	EmailExists error
 	UserAlreadySignUpForThisEvent error
+	UserDontSignUpForThisEvent error
 
 	ParseId error
 	SmallDb error
@@ -77,6 +78,7 @@ var Err = err{
 		AlreadyIn:   errors.New("User is already logged in"),
 		EmailExists: errors.New("Email not unique"),
 		UserAlreadySignUpForThisEvent: errors.New("User already sign up for this event"),
+		UserDontSignUpForThisEvent: errors.New("User do not sign up for this event"),
 
 		ParseId: errors.New("Parse Id error"),
 		SmallDb: errors.New("Sorry, our database is too small yet"),

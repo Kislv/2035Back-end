@@ -1,12 +1,38 @@
-Fri, 25 Nov 2022 17:59:04 MSK INF database.go:60: Successful connection to postgres
-Fri, 25 Nov 2022 17:59:04 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
-Fri, 25 Nov 2022 17:59:04 MSK INF ruserver.go:66: Connecting to port 8080
-Fri, 25 Nov 2022 17:59:18 MSK ERR error="tx is closed"
-Fri, 25 Nov 2022 17:59:18 MSK INF [POST] 127.0.0.1:58856, /api/v1/event/create 4.056072ms
-Fri, 25 Nov 2022 18:22:21 MSK ERR error="tx is closed"
-Fri, 25 Nov 2022 18:22:21 MSK INF [GET] 127.0.0.1:52234, /api/v1/event/get/1 1.528746ms
-Fri, 25 Nov 2022 18:23:07 MSK ERR error="tx is closed"
-Fri, 25 Nov 2022 18:23:07 MSK INF [GET] 127.0.0.1:51332, /api/v1/event/get/1 1.112684ms
-Fri, 25 Nov 2022 18:23:14 MSK INF [GET] 127.0.0.1:39762, /api/v1/event/get/1111111111111111111111111111111111111111111111111111111111 45.505µs
-Fri, 25 Nov 2022 18:27:27 MSK ERR error="tx is closed"
-Fri, 25 Nov 2022 18:27:27 MSK INF [GET] 127.0.0.1:50388, /api/v1/event/category 310.41257ms
+Sun, 04 Dec 2022 03:34:52 MSK INF database.go:60: Successful connection to postgres
+Sun, 04 Dec 2022 03:34:52 MSK INF database.go:61: Connection params: user=eventool password=eventool host=localhost port=5432 dbname=eventool
+Sun, 04 Dec 2022 03:34:58 MSK ERR error="tx is closed"
+cting to port 8080
+Sun, 04 Dec 2022 03:34:58 MSK INF [POST] 127.0.0.1:55308, /api/v1/login 94.948725ms
+Sun, 04 Dec 2022 03:35:48 MSK INF get.go:145: in EventSignUp !!!
+Sun, 04 Dec 2022 03:35:48 MSK INF get.go:156: EventSignUp: after check session 
+Sun, 04 Dec 2022 03:35:48 MSK INF get.go:163: EventSignUp: after parse id  = 3
+Sun, 04 Dec 2022 03:35:48 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 03:35:48 MSK INF comm.go:113: EventSignUp usecase: after get certain event. Title = party3
+Sun, 04 Dec 2022 03:35:48 MSK INF comm.go:121: EventSignUp usecase: after isValidUser = true
+Sun, 04 Dec 2022 03:35:48 MSK INF servdata.go:251: {SignUpUserForEvent} eventid = 3userid2
+Sun, 04 Dec 2022 03:35:48 MSK WRN database.go:103: {Query} Error committing
+Sun, 04 Dec 2022 03:35:48 MSK ERR error="commit unexpectedly resulted in rollback"
+Sun, 04 Dec 2022 03:35:48 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 03:35:48 MSK WRN servdata.go:254: {SignUpUserForEvent} in query: 
+	INSERT INTO 
+	users_events (eventId, userId)
+	VALUES
+	(
+        $1,
+        $2
+	);
+	
+Sun, 04 Dec 2022 03:35:48 MSK ERR error="commit unexpectedly resulted in rollback"
+Sun, 04 Dec 2022 03:35:48 MSK INF comm.go:126: EventSignUp usecase: UserAlreadySignUpForThisEvent
+Sun, 04 Dec 2022 03:35:48 MSK INF [POST] 127.0.0.1:41056, /api/v1/event/signup/3 3.417436ms
+Sun, 04 Dec 2022 03:36:06 MSK INF get.go:145: in EventSignUp !!!
+Sun, 04 Dec 2022 03:36:06 MSK INF get.go:156: EventSignUp: after check session 
+Sun, 04 Dec 2022 03:36:06 MSK INF get.go:163: EventSignUp: after parse id  = 3
+Sun, 04 Dec 2022 03:36:06 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 03:36:06 MSK INF comm.go:113: EventSignUp usecase: after get certain event. Title = party3
+Sun, 04 Dec 2022 03:36:06 MSK INF comm.go:121: EventSignUp usecase: after isValidUser = true
+Sun, 04 Dec 2022 03:36:06 MSK INF servdata.go:251: {SignUpUserForEvent} eventid = 3userid2
+Sun, 04 Dec 2022 03:36:07 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 03:36:07 MSK INF [POST] 127.0.0.1:55162, /api/v1/event/signup/3 671.525878ms
+Sun, 04 Dec 2022 03:36:43 MSK ERR error="tx is closed"
+Sun, 04 Dec 2022 03:36:43 MSK INF [POST] 127.0.0.1:46414, /api/v1/event/signup/cancel/3 22.619135ms
